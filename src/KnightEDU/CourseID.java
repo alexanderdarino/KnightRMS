@@ -4,13 +4,13 @@ package KnightEDU;
  * @author Alexander Darino
  * @version 03/12/11
  */
-public abstract class CourseID implements Comparable<CourseID>{
+public class CourseID implements Comparable<CourseID>{
 
     /**
 
      @param encoding
      */
-    protected CourseID(String encoding)
+    public CourseID(String encoding)
     {
         this.encoding = encoding;
     }
@@ -131,22 +131,7 @@ public abstract class CourseID implements Comparable<CourseID>{
          @param s
          @return
          */
-        protected static boolean isValidNumber(String s)
-        {
-            if (s == null) return false;
-
-            for (int i = 0; i < s.length(); i++)
-                if (!Character.isDigit(s.charAt(i))) return false;
-
-            return true;
-        }
-
-        /**
-
-         @param s
-         @return
-         */
-        protected static boolean isValidPrefix(String s)
+        public static boolean isValidPrefix(String s)
         {
             if (s == null) return false;
             for (int i = 0; i < s.length(); i++)
@@ -161,9 +146,22 @@ public abstract class CourseID implements Comparable<CourseID>{
          @param s
          @return
          */
-        protected static boolean isValidSuffix(String s)
+        public static boolean isValidSuffix(String s)
         {
-            return isValidPrefix(s);
+            if (s == null) return false;
+            for (int i = 0; i < s.length(); i++)
+                if (!Character.isLetter(s.charAt(i))) return false;
+            return true;
+        }
+
+        public static boolean isValidNumber(String number)
+        {
+            if (number == null) return false;
+
+            for (int i = 0; i < number.length(); i++)
+                if (!Character.isDigit(number.charAt(i))) return false;
+
+            return true;
         }
 
     }
