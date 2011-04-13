@@ -28,6 +28,10 @@ public class Course
      */
     protected Grade.Type gradeType;
 
+    Course() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     /**
     Returns the type of grade assigned for this course.
     @return the courses grade type
