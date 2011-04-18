@@ -4,8 +4,11 @@ package KnightEDU;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
 import KnightEDU.DBMS.SQL.DB;
+import KnightEDU.Grade.Type;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Set;
@@ -13,7 +16,7 @@ import java.util.Set;
  *
  * @author David
  */
-public class CoursePlanner implements MouseListener
+public class CoursePlanner implements ActionListener
         
 {
     private DB db = new DB(3,4,1);
@@ -26,8 +29,10 @@ public class CoursePlanner implements MouseListener
     private JTextField numberField;
     private JTextField suffixField;
     private JTextField descriptionField;
-    private JTextField creditsField;
+    private JTextField minCreditsField;
+    private JTextField maxCreditsField;
     private JComboBox gradeTypeBox;
+    private JComboBox creditsBox;
     private JList courseList;
     
     /**
@@ -39,6 +44,21 @@ public class CoursePlanner implements MouseListener
     }
     public void actionPerformed(ActionEvent e)
     {
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+        String courseID = prefix.concat(number).concat(suffix);
+        String name = nameField.getText();
+        String description = descriptionField.getText();
+
+        if (minCreditsField != null && maxCreditsField != null)
+        {
+            Credits credits;
+            int min = Integer.parseInt(minCreditsField.getText());
+            int max = Integer.parseInt(maxCreditsField.getText());
+            credits.createCredits(min, max);
+        }
+
         if (e.getSource() == searchButton)
         {
             KnightEDU.DBMS.SQL.DB db = new KnightEDU.DBMS.SQL.DB(3,4,1);
@@ -47,13 +67,426 @@ public class CoursePlanner implements MouseListener
             {
                 try
                 {
-                    Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsPrefix(null).build().invoke();
+                    Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsPrefix(prefix).containsNumberEqualTo(number).containsSuffix(suffix).build().invoke();
                     if (result != null)
-                    courseList.setListData(result.toArray());
+                        courseList.setListData(result.toArray());
                 }
                 catch (InvalidPrefixException ex)
                 {
                     JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                }
+                catch (InvalidNumberException ex)
+                {
+                    JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                }
+                catch (InvalidSuffixException ex)
+                {
+                    JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                }
+            }
+            else if (hasPartialCourseID())
+            {
+                if (hasPrefix() && hasNumber())
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsPrefix(prefix).containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsPrefix(prefix).containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsPrefix(prefix).containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsPrefix(prefix).containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                }
+                else if (hasNumber() && hasSuffix())
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsNumberEqualTo(number).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsNumberEqualTo(number).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsNumberEqualTo(number).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    // No name or description, just number and suffix.
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsNumberEqualTo(number).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                }
+                else if (hasPrefix() && hasSuffix())
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsPrefix(prefix).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                        
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsPrefix(prefix).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsPrefix(prefix).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+
+                    // No name or description, just prefix and suffix.
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsPrefix(prefix).containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                }
+                else if (hasPrefix())
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsPrefix(prefix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsPrefix(prefix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsPrefix(prefix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsPrefix(prefix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+                        catch (InvalidPrefixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid prefix.");
+                        }
+                    }
+                }
+                else if (hasNumber())
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                    // Just number - no name, description, prefix, or suffix.
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsNumberEqualTo(number).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidNumberException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid number.");
+                        }
+                    }
+                }
+
+                // Only suffix.
+                else
+                {
+                    if (hasName() && hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).descriptionContains(description).specifyCourseID().containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasName())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().nameContains(name).specifyCourseID().containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+                    else if (hasDescription())
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().descriptionContains(description).specifyCourseID().containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
+
+                    // Only suffix
+                    else
+                    {
+                        try
+                        {
+                            Set<KnightEDU.Course> result = db.queryCourse().specifyCourseID().containsSuffix(suffix).build().invoke();
+                            if (result != null)
+                                courseList.setListData(result.toArray());
+                        }
+
+                        catch (InvalidSuffixException ex)
+                        {
+                            JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter valid suffix.");
+                        }
+                    }
                 }
             }
             else if (hasName() && hasDescription())
@@ -74,6 +507,7 @@ public class CoursePlanner implements MouseListener
                 if (result != null)
                     courseList.setListData(result.toArray());
             }
+            // No fields have been filled. Prompt for user input.
             else
             {
                 JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter search criteria.");
@@ -81,11 +515,14 @@ public class CoursePlanner implements MouseListener
 
         }
 
+        // Edit button selected.
         else if (e.getSource() == editButton)
         {
             if (courseList.getSelectedValue() != null)
             {
                 // open prerequisites window
+                Course c = (Course) courseList.getSelectedValue();
+                
             }
             else
                 JOptionPane.showMessageDialog(CoursePlanner.this, "No course is selected.");
@@ -94,14 +531,14 @@ public class CoursePlanner implements MouseListener
         else if (e.getSource() == saveCourseButton)
         {
             // If course is in database, update course.
-            if (db.containsCourse(null)))
+            if (db.containsCourse(courseID))
             {
-                Course c = db.getCourse(null);
-                c.setName(nameField.getText());
-                c.setCredits(null);
-                c.setDescription(descriptionField.getText());
-                c.setGradeType(Grade.Type.LETTER);
-                c.setPrerequisites(null);
+                Course c = db.getCourse(courseID);
+                c.setName(name);
+                c.setDescription(description);
+                c.setCredits((Credits)creditsBox.getSelectedItem());
+                c.setGradeType((Type)gradeTypeBox.getSelectedItem());
+                c.set
             }
 
             // Need a pop-up window here - if the user makes a typo in the course name,
@@ -112,24 +549,26 @@ public class CoursePlanner implements MouseListener
             // If course is not in database, add new course.
             else
             {
-                //CourseID cID = new CourseID.PNS.create(prefixField.getText(), numberField.getText(), suffixField.getText()));
-                //db.addCourse(courseName, cID, prefix, cID, cID);
+                Credits c = (Credits)creditsBox.getSelectedItem();
+                Grade.Type type = (Type)gradeTypeBox.getSelectedItem();
+                //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
+                db.addCourse(courseID, name, description, c, type);
             }
         }
 
+        // Remove the course from the database
         else if (e.getSource() == removeCourseButton)
         {
             if (courseList.getSelectedValue() != null)
             {
-                Course c = (Course) courseList.getSelectedValue();
-                db.removeCourse(c.id.toString());
+                db.removeCourse(courseID);
             }
-        }
-    }
+            else
+            {
+                JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter search criteria.");
+            }
 
-    public void updateList()
-    {
-        //courseList.setListData(array or vector);
+        }
     }
 
     public boolean hasCompleteCourseID()
@@ -143,6 +582,30 @@ public class CoursePlanner implements MouseListener
     public boolean hasPartialCourseID()
     {
         if (nameField.getText() != null || numberField.getText() != null || suffixField.getText() != null)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean hasPrefix()
+    {
+        if (prefixField.getText() != null)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean hasNumber()
+    {
+        if (numberField.getText() != null)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean hasSuffix()
+    {
+        if (suffixField.getText() != null)
             return true;
         else
             return false;
