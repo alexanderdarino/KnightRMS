@@ -4,6 +4,7 @@ package KnightRMS;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import KnightEDU.Credits;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
@@ -12,12 +13,12 @@ import KnightEDU.Grade.Type;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Set;
-/**asdkfsaldkjf
+
+/**
  *
  * @author David
  */
-public class CoursePlanner implements ActionListener
-
+public class CoursePlanner implements ActionListener extends javax.swing.JFrame
 {
     private DB db = new DB(3,4,1);
     private JButton searchButton;
@@ -38,10 +39,18 @@ public class CoursePlanner implements ActionListener
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+
+    public static void main(String args[])
     {
-        // TODO code application logic here
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                new CoursePlanner().setVisible(true);
+            }
+        });
     }
+
     public void actionPerformed(ActionEvent e)
     {
         String prefix = prefixField.getText();
@@ -53,7 +62,7 @@ public class CoursePlanner implements ActionListener
 
         if (minCreditsField != null && maxCreditsField != null)
         {
-            Credits credits = new Credits();
+            Credits credits = null;
             int min = Integer.parseInt(minCreditsField.getText());
             int max = Integer.parseInt(maxCreditsField.getText());
             credits.createCredits(min, max);
@@ -512,7 +521,6 @@ public class CoursePlanner implements ActionListener
             {
                 JOptionPane.showMessageDialog(CoursePlanner.this, "Please enter search criteria.");
             }
-
         }
 
         // Edit button selected.
@@ -538,7 +546,6 @@ public class CoursePlanner implements ActionListener
                 c.setDescription(description);
                 c.setCredits((Credits)creditsBox.getSelectedItem());
                 c.setGradeType((Type)gradeTypeBox.getSelectedItem());
-                c.set
             }
 
             // Need a pop-up window here - if the user makes a typo in the course name,
@@ -646,5 +653,4 @@ public class CoursePlanner implements ActionListener
     public void mouseExited(MouseEvent e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
