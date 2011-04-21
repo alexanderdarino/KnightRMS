@@ -33,7 +33,6 @@ public class CoursePlanner implements ActionListener extends javax.swing.JFrame
     private JTextField minCreditsField;
     private JTextField maxCreditsField;
     private JComboBox gradeTypeBox;
-    private JComboBox creditsBox;
     private JList courseList;
 
     /**
@@ -62,10 +61,9 @@ public class CoursePlanner implements ActionListener extends javax.swing.JFrame
 
         if (minCreditsField != null && maxCreditsField != null)
         {
-            Credits credits = null;
             int min = Integer.parseInt(minCreditsField.getText());
             int max = Integer.parseInt(maxCreditsField.getText());
-            credits.createCredits(min, max);
+            Credits credits = Credits.createCredits(min, max);
         }
 
         if (e.getSource() == searchButton)
