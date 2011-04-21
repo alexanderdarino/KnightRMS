@@ -1,4 +1,4 @@
-package knightrmse;
+package KnightRMS;
 
 import KnightEDU.Credits;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;

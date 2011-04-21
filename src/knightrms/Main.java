@@ -3,11 +3,11 @@
  * and open the template in the editor.
  */
 
-package knightrms;
+package KnightRMS;
 
 /**
  *
- * @author David
+ * @author Evan
  */
 public class Main {
 

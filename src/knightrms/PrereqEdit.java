@@ -9,7 +9,7 @@
  * Created on Apr 17, 2011, 7:13:30 PM
  */
 
-package knightrms;
+package KnightRMS;
 
 /**
  *
@@ -34,20 +34,20 @@ public class PrereqEdit extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         prefixLab = new javax.swing.JLabel();
-        prefixField = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        numberField = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        suffixField = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        minGradeField = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        okButton = new javax.swing.JButton();
-        cancelButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit Prerequisites");
@@ -57,84 +57,63 @@ public class PrereqEdit extends javax.swing.JDialog {
         prefixLab.setText(" Prefix:");
         jPanel1.add(prefixLab);
 
-        prefixField.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                prefixFieldActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
         });
-        jPanel1.add(prefixField);
+        jPanel1.add(jTextField1);
 
         jLabel4.setText(" (exactly 3 letters) ");
         jPanel1.add(jLabel4);
 
         jLabel2.setText(" Number:");
         jPanel1.add(jLabel2);
-
-        numberField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numberFieldActionPerformed(evt);
-            }
-        });
-        jPanel1.add(numberField);
+        jPanel1.add(jTextField2);
 
         jLabel5.setText(" (exactly 4 numbers) ");
         jPanel1.add(jLabel5);
 
         jLabel3.setText(" Suffix:");
         jPanel1.add(jLabel3);
-        jPanel1.add(suffixField);
+        jPanel1.add(jTextField3);
 
         jLabel6.setText(" (at most one letter) ");
         jPanel1.add(jLabel6);
 
         jLabel7.setText(" Minimum Passing Grade:     ");
         jPanel1.add(jLabel7);
-        jPanel1.add(minGradeField);
+        jPanel1.add(jTextField4);
 
         jLabel8.setText(" (based on grading preference) ");
         jPanel1.add(jLabel8);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        okButton.setText("OK");
-        okButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
-            }
-        });
-        jPanel3.add(okButton);
+        jButton1.setText("OK");
+        jPanel3.add(jButton1);
 
-        cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Cancel");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jPanel3.add(cancelButton);
+        jPanel3.add(jButton2);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prefixFieldActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_prefixFieldActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        // Already checked for course ID
-        
-        // TODO add your handling co
-    }//GEN-LAST:event_okButtonActionPerformed
-
-    private void numberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_numberFieldActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
     * @param args the command line arguments
@@ -144,7 +123,6 @@ public class PrereqEdit extends javax.swing.JDialog {
             public void run() {
                 PrereqEdit dialog = new PrereqEdit(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
@@ -153,9 +131,10 @@ public class PrereqEdit extends javax.swing.JDialog {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -165,12 +144,11 @@ public class PrereqEdit extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField minGradeField;
-    private javax.swing.JTextField numberField;
-    private javax.swing.JButton okButton;
-    private javax.swing.JTextField prefixField;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel prefixLab;
-    private javax.swing.JTextField suffixField;
     // End of variables declaration//GEN-END:variables
 
 }

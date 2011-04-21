@@ -9,7 +9,7 @@
  * Created on Apr 21, 2011, 4:08:43 PM
  */
 
-package knightrmse;
+package KnightRMS;
 
 import java.util.Set;
 
@@ -72,7 +72,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         prereqList = new javax.swing.JList();
         editPrereqsButton = new javax.swing.JButton();
-        coursePlannerSep = new javax.swing.JSeparator();
+        jSeparator1 = new javax.swing.JSeparator();
         coursePlannerRightPan = new javax.swing.JPanel();
         semOfferedPan = new javax.swing.JPanel();
         javax.swing.JPanel semOfferedAllBoxPan = new javax.swing.JPanel();
@@ -100,12 +100,14 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
 
-        coursePlannerLeftPan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
+
+        coursePlannerLeftPan.setLayout(new javax.swing.BoxLayout(coursePlannerLeftPan, javax.swing.BoxLayout.PAGE_AXIS));
 
         courseInfoLab.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         courseInfoLab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         courseInfoLab.setText("Course Information");
-        coursePlannerLeftPan.add(courseInfoLab, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 40));
+        coursePlannerLeftPan.add(courseInfoLab);
 
         courseInfoTopPan.setLayout(new javax.swing.BoxLayout(courseInfoTopPan, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -132,7 +134,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         creditsLab.setText("Credits:");
         courseInfoLabelPan.add(creditsLab);
 
-        gradingPrefLab.setFont(new java.awt.Font("Tahoma", 1, 12));
+        gradingPrefLab.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         gradingPrefLab.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gradingPrefLab.setText("Grading Preference:");
         courseInfoLabelPan.add(gradingPrefLab);
@@ -194,7 +196,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         courseInfoTopPan.add(courseInfoInputPan);
 
-        coursePlannerLeftPan.add(courseInfoTopPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 100));
+        coursePlannerLeftPan.add(courseInfoTopPan);
 
         PrereqsPan.setLayout(new java.awt.GridBagLayout());
 
@@ -232,11 +234,14 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 11, 0);
         PrereqsPan.add(editPrereqsButton, gridBagConstraints);
 
-        coursePlannerLeftPan.add(PrereqsPan, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 160, 200));
+        coursePlannerLeftPan.add(PrereqsPan);
 
-        coursePlannerSep.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        add(coursePlannerLeftPan);
 
-        coursePlannerRightPan.setLayout(new javax.swing.BoxLayout(coursePlannerRightPan, javax.swing.BoxLayout.PAGE_AXIS));
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        add(jSeparator1);
+
+        coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
 
         semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Semesters Offered:"));
         semOfferedPan.setLayout(new java.awt.GridBagLayout());
@@ -313,25 +318,19 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
         semOfferedPan.add(semOfferedAllBoxPan, gridBagConstraints);
 
-        coursePlannerRightPan.add(semOfferedPan);
+        coursePlannerRightPan.add(semOfferedPan, java.awt.BorderLayout.NORTH);
 
-        courseSearchPan.setLayout(new java.awt.GridBagLayout());
+        courseSearchPan.setLayout(new java.awt.BorderLayout());
 
         courseSearchResultsLab2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         courseSearchResultsLab2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         courseSearchResultsLab2.setText("Course Search Results");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
-        courseSearchPan.add(courseSearchResultsLab2, gridBagConstraints);
+        courseSearchPan.add(courseSearchResultsLab2, java.awt.BorderLayout.NORTH);
 
         courseList1.setBackground(new java.awt.Color(204, 255, 255));
         jScrollPane3.setViewportView(courseList1);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        courseSearchPan.add(jScrollPane3, gridBagConstraints);
+        courseSearchPan.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
         searchButton1.setText("Search");
         searchButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -339,9 +338,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 searchButton1ActionPerformed(evt);
             }
         });
-        courseSearchPan.add(searchButton1, new java.awt.GridBagConstraints());
+        courseSearchPan.add(searchButton1, java.awt.BorderLayout.SOUTH);
 
-        coursePlannerRightPan.add(courseSearchPan);
+        coursePlannerRightPan.add(courseSearchPan, java.awt.BorderLayout.CENTER);
 
         courseOptionsPan.setLayout(new java.awt.GridLayout(3, 1));
 
@@ -371,33 +370,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         courseOptionsPan.add(courseOptionsInsidePan);
 
-        coursePlannerRightPan.add(courseOptionsPan);
+        coursePlannerRightPan.add(courseOptionsPan, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1278, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 216, Short.MAX_VALUE)
-                    .addComponent(coursePlannerLeftPan, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(coursePlannerSep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(coursePlannerRightPan, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 217, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 717, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 60, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(coursePlannerLeftPan, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(coursePlannerSep, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(coursePlannerRightPan, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 60, Short.MAX_VALUE)))
-        );
+        add(coursePlannerRightPan);
     }// </editor-fold>//GEN-END:initComponents
 
     private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prefixFieldActionPerformed
@@ -554,7 +529,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel courseOptionsPan;
     private javax.swing.JPanel coursePlannerLeftPan;
     private javax.swing.JPanel coursePlannerRightPan;
-    private javax.swing.JSeparator coursePlannerSep;
     private javax.swing.JLabel coursePrefixLab;
     private javax.swing.JPanel courseSearchPan;
     private javax.swing.JLabel courseSearchResultsLab2;
@@ -572,6 +546,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTextField maxCreditsField;
     private javax.swing.JTextField minCreditsField;
