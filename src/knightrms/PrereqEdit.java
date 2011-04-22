@@ -11,6 +11,8 @@
 
 package KnightRMS;
 
+import java.awt.Frame;
+
 /**
  *
  * @author Evan
@@ -18,7 +20,7 @@ package KnightRMS;
 public class PrereqEdit extends javax.swing.JDialog {
 
     /** Creates new form PrereqEdit */
-    public PrereqEdit(java.awt.Frame parent, boolean modal) {
+    public PrereqEdit(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -32,123 +34,108 @@ public class PrereqEdit extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        prereqInfoPan = new javax.swing.JPanel();
         prefixLab = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        prefixField = new javax.swing.JTextField();
+        prefixConstraintsLab = new javax.swing.JLabel();
+        numberLab = new javax.swing.JLabel();
+        numberField = new javax.swing.JTextField();
+        numberConstraintsLab = new javax.swing.JLabel();
+        suffixLab = new javax.swing.JLabel();
+        suffixField = new javax.swing.JTextField();
+        suffixConstraintsLab = new javax.swing.JLabel();
+        minPassingGradeLab = new javax.swing.JLabel();
+        minPassingGradeField = new javax.swing.JTextField();
+        minPassingGradeConstraintsLab = new javax.swing.JLabel();
+        prereqButtonPan = new javax.swing.JPanel();
+        okButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edit Prerequisites");
 
-        jPanel1.setLayout(new java.awt.GridLayout(4, 3));
+        prereqInfoPan.setLayout(new java.awt.GridLayout(4, 3));
 
         prefixLab.setText(" Prefix:");
-        jPanel1.add(prefixLab);
+        prereqInfoPan.add(prefixLab);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        prefixField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                prefixFieldActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1);
+        prereqInfoPan.add(prefixField);
 
-        jLabel4.setText(" (exactly 3 letters) ");
-        jPanel1.add(jLabel4);
+        prefixConstraintsLab.setText(" (exactly 3 letters) ");
+        prereqInfoPan.add(prefixConstraintsLab);
 
-        jLabel2.setText(" Number:");
-        jPanel1.add(jLabel2);
-        jPanel1.add(jTextField2);
+        numberLab.setText(" Number:");
+        prereqInfoPan.add(numberLab);
+        prereqInfoPan.add(numberField);
 
-        jLabel5.setText(" (exactly 4 numbers) ");
-        jPanel1.add(jLabel5);
+        numberConstraintsLab.setText(" (exactly 4 numbers) ");
+        prereqInfoPan.add(numberConstraintsLab);
 
-        jLabel3.setText(" Suffix:");
-        jPanel1.add(jLabel3);
-        jPanel1.add(jTextField3);
+        suffixLab.setText(" Suffix:");
+        prereqInfoPan.add(suffixLab);
+        prereqInfoPan.add(suffixField);
 
-        jLabel6.setText(" (at most one letter) ");
-        jPanel1.add(jLabel6);
+        suffixConstraintsLab.setText(" (at most one letter) ");
+        prereqInfoPan.add(suffixConstraintsLab);
 
-        jLabel7.setText(" Minimum Passing Grade:     ");
-        jPanel1.add(jLabel7);
-        jPanel1.add(jTextField4);
+        minPassingGradeLab.setText(" Minimum Passing Grade:     ");
+        prereqInfoPan.add(minPassingGradeLab);
+        prereqInfoPan.add(minPassingGradeField);
 
-        jLabel8.setText(" (based on grading preference) ");
-        jPanel1.add(jLabel8);
+        minPassingGradeConstraintsLab.setText(" (based on grading preference) ");
+        prereqInfoPan.add(minPassingGradeConstraintsLab);
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(prereqInfoPan, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("OK");
-        jPanel3.add(jButton1);
+        prereqButtonPan.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        okButton.setText("OK");
+        prereqButtonPan.add(okButton);
+
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2);
+        prereqButtonPan.add(cancelButton);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(prereqButtonPan, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prefixFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_prefixFieldActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PrereqEdit dialog = new PrereqEdit(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel minPassingGradeConstraintsLab;
+    private javax.swing.JTextField minPassingGradeField;
+    private javax.swing.JLabel minPassingGradeLab;
+    private javax.swing.JLabel numberConstraintsLab;
+    private javax.swing.JTextField numberField;
+    private javax.swing.JLabel numberLab;
+    private javax.swing.JButton okButton;
+    private javax.swing.JLabel prefixConstraintsLab;
+    private javax.swing.JTextField prefixField;
     private javax.swing.JLabel prefixLab;
+    private javax.swing.JPanel prereqButtonPan;
+    private javax.swing.JPanel prereqInfoPan;
+    private javax.swing.JLabel suffixConstraintsLab;
+    private javax.swing.JTextField suffixField;
+    private javax.swing.JLabel suffixLab;
     // End of variables declaration//GEN-END:variables
 
 }

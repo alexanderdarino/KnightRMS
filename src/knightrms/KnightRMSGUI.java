@@ -44,7 +44,6 @@ public class KnightRMSGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         coursePlannerTab = new javax.swing.JTabbedPane();
 
@@ -64,7 +63,7 @@ public class KnightRMSGUI extends javax.swing.JFrame {
             .addComponent(coursePlannerTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
         );
 
-        coursePlannerTab.add(new CoursePlannerPanel(db));
+        coursePlannerTab.add(new CoursePlannerPanel(this, db));
         coursePlannerTab.setTitleAt(0, "Course Planner");
 
         pack();

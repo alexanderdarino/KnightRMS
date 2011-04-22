@@ -11,6 +11,7 @@
 
 package KnightRMS;
 
+import java.awt.Frame;
 import java.util.Set;
 
 /**
@@ -20,11 +21,13 @@ import java.util.Set;
 public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private KnightEDU.DBMS.SQL.DB db;
+    private Frame parent;
     
-    public CoursePlannerPanel(KnightEDU.DBMS.SQL.DB db)
+    public CoursePlannerPanel(Frame parent, KnightEDU.DBMS.SQL.DB db)
     {
         this();
         this.db = db;
+        this.parent = parent;
     }
 
     /** Creates new form CoursePlannerPanel */
@@ -40,17 +43,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         coursePlannerLeftPan = new javax.swing.JPanel();
-        courseInfoLab = new javax.swing.JLabel();
         courseInfoTopPan = new javax.swing.JPanel();
-        courseInfoLabelPan = new javax.swing.JPanel();
-        courseIDLab = new javax.swing.JLabel();
-        courseNameLab = new javax.swing.JLabel();
-        courseDescipLab = new javax.swing.JLabel();
-        creditsLab = new javax.swing.JLabel();
-        gradingPrefLab = new javax.swing.JLabel();
         courseInfoInputPan = new javax.swing.JPanel();
         courseIDInsidePan = new javax.swing.JPanel();
         coursePrefixLab = new javax.swing.JLabel();
@@ -59,25 +54,27 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         numberField = new javax.swing.JTextField();
         courseSuffixLab = new javax.swing.JLabel();
         suffixField = new javax.swing.JTextField();
+        courseNamePan = new javax.swing.JPanel();
         nameField = new javax.swing.JTextField();
+        courseDescriptionPan = new javax.swing.JPanel();
         descriptionField = new javax.swing.JTextField();
-        courseCreditsPan = new javax.swing.JPanel();
+        creditsPan = new javax.swing.JPanel();
         creditsMinLab = new javax.swing.JLabel();
         minCreditsField = new javax.swing.JTextField();
         creditsMaxLab = new javax.swing.JLabel();
         maxCreditsField = new javax.swing.JTextField();
+        gradePrefPan = new javax.swing.JPanel();
         gradePrefBox = new javax.swing.JComboBox();
         PrereqsPan = new javax.swing.JPanel();
         prereqsLab = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        prereqListScrollPane = new javax.swing.JScrollPane();
         prereqList = new javax.swing.JList();
         editPrereqsButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        coursePlannerSeparator = new javax.swing.JSeparator();
         coursePlannerRightPan = new javax.swing.JPanel();
         semOfferedPan = new javax.swing.JPanel();
-        javax.swing.JPanel semOfferedAllBoxPan = new javax.swing.JPanel();
         occasionalBox = new javax.swing.JCheckBox();
-        jSeparator7 = new javax.swing.JSeparator();
+        semOfferedSeparator = new javax.swing.JSeparator();
         semOfferedSemPan = new javax.swing.JPanel();
         fallLab = new javax.swing.JLabel();
         fallEvenBox = new javax.swing.JCheckBox();
@@ -89,13 +86,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         summerEvenBox = new javax.swing.JCheckBox();
         summerOddBox = new javax.swing.JCheckBox();
         courseSearchPan = new javax.swing.JPanel();
-        courseSearchResultsLab2 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        courseList1 = new javax.swing.JList();
-        searchButton1 = new javax.swing.JButton();
+        courseSearchResultsLab = new javax.swing.JLabel();
+        courseListScrollPane = new javax.swing.JScrollPane();
+        courseList = new javax.swing.JList();
+        searchButton = new javax.swing.JButton();
         courseOptionsPan = new javax.swing.JPanel();
-        courseOptionsLab = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         courseOptionsInsidePan = new javax.swing.JPanel();
         saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
@@ -104,45 +99,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         coursePlannerLeftPan.setLayout(new javax.swing.BoxLayout(coursePlannerLeftPan, javax.swing.BoxLayout.PAGE_AXIS));
 
-        courseInfoLab.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        courseInfoLab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        courseInfoLab.setText("Course Information");
-        coursePlannerLeftPan.add(courseInfoLab);
-
+        courseInfoTopPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         courseInfoTopPan.setLayout(new javax.swing.BoxLayout(courseInfoTopPan, javax.swing.BoxLayout.LINE_AXIS));
-
-        courseInfoLabelPan.setLayout(new java.awt.GridLayout(5, 1));
-
-        courseIDLab.setFont(new java.awt.Font("Tahoma", 1, 12));
-        courseIDLab.setText("Course ID:");
-        courseIDLab.setIconTextGap(5);
-        courseIDLab.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        courseInfoLabelPan.add(courseIDLab);
-
-        courseNameLab.setFont(new java.awt.Font("Tahoma", 1, 12));
-        courseNameLab.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        courseNameLab.setText("Course Name:");
-        courseInfoLabelPan.add(courseNameLab);
-
-        courseDescipLab.setFont(new java.awt.Font("Tahoma", 1, 12));
-        courseDescipLab.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        courseDescipLab.setText("Course Description:");
-        courseInfoLabelPan.add(courseDescipLab);
-
-        creditsLab.setFont(new java.awt.Font("Tahoma", 1, 12));
-        creditsLab.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        creditsLab.setText("Credits:");
-        courseInfoLabelPan.add(creditsLab);
-
-        gradingPrefLab.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        gradingPrefLab.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gradingPrefLab.setText("Grading Preference:");
-        courseInfoLabelPan.add(gradingPrefLab);
-
-        courseInfoTopPan.add(courseInfoLabelPan);
 
         courseInfoInputPan.setLayout(new java.awt.GridLayout(5, 1));
 
+        courseIDInsidePan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course ID"));
         courseIDInsidePan.setAlignmentX(0.0F);
         courseIDInsidePan.setAlignmentY(0.0F);
         courseIDInsidePan.setLayout(new java.awt.GridLayout(1, 6));
@@ -151,6 +113,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         coursePrefixLab.setText("Prefix: ");
         courseIDInsidePan.add(coursePrefixLab);
 
+        prefixField.setText("COP");
         prefixField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prefixFieldActionPerformed(evt);
@@ -169,22 +132,36 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseIDInsidePan.add(suffixField);
 
         courseInfoInputPan.add(courseIDInsidePan);
-        courseInfoInputPan.add(nameField);
-        courseInfoInputPan.add(descriptionField);
 
-        courseCreditsPan.setLayout(new java.awt.GridLayout());
+        courseNamePan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course Name"));
+        courseNamePan.setLayout(new javax.swing.BoxLayout(courseNamePan, javax.swing.BoxLayout.LINE_AXIS));
+        courseNamePan.add(nameField);
+
+        courseInfoInputPan.add(courseNamePan);
+
+        courseDescriptionPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course Description"));
+        courseDescriptionPan.setLayout(new java.awt.GridLayout(1, 0));
+        courseDescriptionPan.add(descriptionField);
+
+        courseInfoInputPan.add(courseDescriptionPan);
+
+        creditsPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Credits"));
+        creditsPan.setLayout(new java.awt.GridLayout(1, 0));
 
         creditsMinLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         creditsMinLab.setText("Min: ");
-        courseCreditsPan.add(creditsMinLab);
-        courseCreditsPan.add(minCreditsField);
+        creditsPan.add(creditsMinLab);
+        creditsPan.add(minCreditsField);
 
         creditsMaxLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         creditsMaxLab.setText("Max: ");
-        courseCreditsPan.add(creditsMaxLab);
-        courseCreditsPan.add(maxCreditsField);
+        creditsPan.add(creditsMaxLab);
+        creditsPan.add(maxCreditsField);
 
-        courseInfoInputPan.add(courseCreditsPan);
+        courseInfoInputPan.add(creditsPan);
+
+        gradePrefPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Grade Preference"));
+        gradePrefPan.setLayout(new java.awt.GridLayout(1, 0));
 
         gradePrefBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Letter", "S / U" }));
         gradePrefBox.addActionListener(new java.awt.event.ActionListener() {
@@ -192,33 +169,25 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 gradePrefBoxActionPerformed(evt);
             }
         });
-        courseInfoInputPan.add(gradePrefBox);
+        gradePrefPan.add(gradePrefBox);
+
+        courseInfoInputPan.add(gradePrefPan);
 
         courseInfoTopPan.add(courseInfoInputPan);
 
         coursePlannerLeftPan.add(courseInfoTopPan);
 
-        PrereqsPan.setLayout(new java.awt.GridBagLayout());
+        PrereqsPan.setLayout(new java.awt.BorderLayout());
 
-        prereqsLab.setFont(new java.awt.Font("Tahoma", 1, 12));
+        prereqsLab.setFont(new java.awt.Font("Tahoma", 1, 11));
         prereqsLab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        prereqsLab.setText("Prerequisites:");
-        PrereqsPan.add(prereqsLab, new java.awt.GridBagConstraints());
+        prereqsLab.setText("Prerequisites");
+        PrereqsPan.add(prereqsLab, java.awt.BorderLayout.NORTH);
 
         prereqList.setBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane2.setViewportView(prereqList);
+        prereqListScrollPane.setViewportView(prereqList);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 136;
-        gridBagConstraints.ipady = 78;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(11, 0, 0, 0);
-        PrereqsPan.add(jScrollPane2, gridBagConstraints);
+        PrereqsPan.add(prereqListScrollPane, java.awt.BorderLayout.CENTER);
 
         editPrereqsButton.setText("Edit Prerequisites");
         editPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -226,27 +195,19 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 editPrereqsButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 44;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 11, 0);
-        PrereqsPan.add(editPrereqsButton, gridBagConstraints);
+        PrereqsPan.add(editPrereqsButton, java.awt.BorderLayout.SOUTH);
 
         coursePlannerLeftPan.add(PrereqsPan);
 
         add(coursePlannerLeftPan);
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        add(jSeparator1);
+        coursePlannerSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        add(coursePlannerSeparator);
 
         coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
 
-        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Semesters Offered:"));
-        semOfferedPan.setLayout(new java.awt.GridBagLayout());
-
-        semOfferedAllBoxPan.setLayout(new javax.swing.BoxLayout(semOfferedAllBoxPan, javax.swing.BoxLayout.LINE_AXIS));
+        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Semesters Offered", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        semOfferedPan.setLayout(new javax.swing.BoxLayout(semOfferedPan, javax.swing.BoxLayout.LINE_AXIS));
 
         occasionalBox.setText("Occasional");
         occasionalBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -255,14 +216,13 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 occasionalBoxActionPerformed(evt);
             }
         });
-        semOfferedAllBoxPan.add(occasionalBox);
+        semOfferedPan.add(occasionalBox);
 
-        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        semOfferedAllBoxPan.add(jSeparator7);
+        semOfferedSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        semOfferedPan.add(semOfferedSeparator);
 
         semOfferedSemPan.setLayout(new java.awt.GridLayout(3, 3, 40, 20));
 
-        fallLab.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fallLab.setText("     Fall:");
         semOfferedSemPan.add(fallLab);
 
@@ -279,7 +239,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         });
         semOfferedSemPan.add(fallOddBox);
 
-        springLab.setFont(new java.awt.Font("Tahoma", 1, 11));
         springLab.setText("     Spring:");
         semOfferedSemPan.add(springLab);
 
@@ -296,7 +255,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         springOddBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         semOfferedSemPan.add(springOddBox);
 
-        summerLab.setFont(new java.awt.Font("Tahoma", 1, 11));
         summerLab.setText("     Summer:");
         semOfferedSemPan.add(summerLab);
 
@@ -308,47 +266,34 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         summerOddBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         semOfferedSemPan.add(summerOddBox);
 
-        semOfferedAllBoxPan.add(semOfferedSemPan);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 21;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
-        semOfferedPan.add(semOfferedAllBoxPan, gridBagConstraints);
+        semOfferedPan.add(semOfferedSemPan);
 
         coursePlannerRightPan.add(semOfferedPan, java.awt.BorderLayout.NORTH);
 
         courseSearchPan.setLayout(new java.awt.BorderLayout());
 
-        courseSearchResultsLab2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        courseSearchResultsLab2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        courseSearchResultsLab2.setText("Course Search Results");
-        courseSearchPan.add(courseSearchResultsLab2, java.awt.BorderLayout.NORTH);
+        courseSearchResultsLab.setFont(new java.awt.Font("Tahoma", 1, 11));
+        courseSearchResultsLab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        courseSearchResultsLab.setText("Course Search Results");
+        courseSearchPan.add(courseSearchResultsLab, java.awt.BorderLayout.NORTH);
 
-        courseList1.setBackground(new java.awt.Color(204, 255, 255));
-        jScrollPane3.setViewportView(courseList1);
+        courseList.setBackground(new java.awt.Color(204, 255, 255));
+        courseListScrollPane.setViewportView(courseList);
 
-        courseSearchPan.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+        courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
 
-        searchButton1.setText("Search");
-        searchButton1.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButton1ActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
-        courseSearchPan.add(searchButton1, java.awt.BorderLayout.SOUTH);
+        courseSearchPan.add(searchButton, java.awt.BorderLayout.SOUTH);
 
         coursePlannerRightPan.add(courseSearchPan, java.awt.BorderLayout.CENTER);
 
-        courseOptionsPan.setLayout(new java.awt.GridLayout(3, 1));
-
-        courseOptionsLab.setFont(new java.awt.Font("Tahoma", 1, 12));
-        courseOptionsLab.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        courseOptionsLab.setText("Course Options");
-        courseOptionsPan.add(courseOptionsLab);
-        courseOptionsPan.add(jLabel3);
+        courseOptionsPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        courseOptionsPan.setLayout(new java.awt.GridLayout(1, 0));
 
         courseOptionsInsidePan.setLayout(new java.awt.GridLayout(1, 2));
 
@@ -385,6 +330,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void editPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPrereqsButtonActionPerformed
         // TODO add your handling code here:
+        new PrereqEdit(parent, true).setVisible(true);
 //        if (prefixField == null || numberField == null || suffixField == null) {
 //            JOptionPane.showMessageDialog(KnightRMSGUI.this, "Valid Course ID required");
 //            return;
@@ -487,7 +433,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 //            }
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void searchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButton1ActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 //
 //    KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
 //
@@ -508,46 +454,38 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 //    // more code
 //
 //    Set<KnightEDU.Course> results = courseQuery.invoke();
-    }//GEN-LAST:event_searchButton1ActionPerformed
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PrereqsPan;
-    private javax.swing.JPanel courseCreditsPan;
-    private javax.swing.JLabel courseDescipLab;
+    private javax.swing.JPanel courseDescriptionPan;
     private javax.swing.JPanel courseIDInsidePan;
-    private javax.swing.JLabel courseIDLab;
     private javax.swing.JPanel courseInfoInputPan;
-    private javax.swing.JLabel courseInfoLab;
-    private javax.swing.JPanel courseInfoLabelPan;
     private javax.swing.JPanel courseInfoTopPan;
-    private javax.swing.JList courseList1;
-    private javax.swing.JLabel courseNameLab;
+    private javax.swing.JList courseList;
+    private javax.swing.JScrollPane courseListScrollPane;
+    private javax.swing.JPanel courseNamePan;
     private javax.swing.JLabel courseNumLab;
     private javax.swing.JPanel courseOptionsInsidePan;
-    private javax.swing.JLabel courseOptionsLab;
     private javax.swing.JPanel courseOptionsPan;
     private javax.swing.JPanel coursePlannerLeftPan;
     private javax.swing.JPanel coursePlannerRightPan;
+    private javax.swing.JSeparator coursePlannerSeparator;
     private javax.swing.JLabel coursePrefixLab;
     private javax.swing.JPanel courseSearchPan;
-    private javax.swing.JLabel courseSearchResultsLab2;
+    private javax.swing.JLabel courseSearchResultsLab;
     private javax.swing.JLabel courseSuffixLab;
-    private javax.swing.JLabel creditsLab;
     private javax.swing.JLabel creditsMaxLab;
     private javax.swing.JLabel creditsMinLab;
+    private javax.swing.JPanel creditsPan;
     private javax.swing.JTextField descriptionField;
     private javax.swing.JButton editPrereqsButton;
     private javax.swing.JCheckBox fallEvenBox;
     private javax.swing.JLabel fallLab;
     private javax.swing.JCheckBox fallOddBox;
     private javax.swing.JComboBox gradePrefBox;
-    private javax.swing.JLabel gradingPrefLab;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JPanel gradePrefPan;
     private javax.swing.JTextField maxCreditsField;
     private javax.swing.JTextField minCreditsField;
     private javax.swing.JTextField nameField;
@@ -555,12 +493,14 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox occasionalBox;
     private javax.swing.JTextField prefixField;
     private javax.swing.JList prereqList;
+    private javax.swing.JScrollPane prereqListScrollPane;
     private javax.swing.JLabel prereqsLab;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton saveButton;
-    private javax.swing.JButton searchButton1;
+    private javax.swing.JButton searchButton;
     private javax.swing.JPanel semOfferedPan;
     private javax.swing.JPanel semOfferedSemPan;
+    private javax.swing.JSeparator semOfferedSeparator;
     private javax.swing.JCheckBox springEvenBox;
     private javax.swing.JLabel springLab;
     private javax.swing.JCheckBox springOddBox;
