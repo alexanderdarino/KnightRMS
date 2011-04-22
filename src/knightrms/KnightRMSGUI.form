@@ -40,7 +40,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="coursePlannerTab.add(new CoursePlannerPanel(this, db));&#xa;coursePlannerTab.setTitleAt(0, &quot;Course Planner&quot;);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="coursePlannerTab.add(new KnightRMS.CoursePlannerPanel_NEW(this, db));&#xa;coursePlannerTab.setTitleAt(0, &quot;Course Planner&quot;);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>

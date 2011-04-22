@@ -63,7 +63,7 @@ public class KnightRMSGUI extends javax.swing.JFrame {
             .addComponent(coursePlannerTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
         );
 
-        coursePlannerTab.add(new CoursePlannerPanel(this, db));
+        coursePlannerTab.add(new CoursePlannerPanel_NEW(this, db));
         coursePlannerTab.setTitleAt(0, "Course Planner");
 
         pack();
