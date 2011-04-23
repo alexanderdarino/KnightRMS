@@ -110,7 +110,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         coursePlannerLeftPan.setMinimumSize(coursePlannerLeftPan.getPreferredSize());
         coursePlannerLeftPan.setLayout(new java.awt.BorderLayout());
 
-        courseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        courseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Course Information"));
         courseInfoPanel.setMinimumSize(courseInfoPanel.getPreferredSize());
         courseInfoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -241,14 +241,14 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         coursePlannerLeftPan.add(courseInfoPanel, java.awt.BorderLayout.WEST);
 
-        prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prerequisites", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Prerequisites"));
         prerequisitesPanel.setLayout(new java.awt.BorderLayout());
 
         prereqsListScrollPane.setViewportView(prereqsList);
 
         prerequisitesPanel.add(prereqsListScrollPane, java.awt.BorderLayout.CENTER);
 
-        editPrereqsButton.setText("jButton1");
+        editPrereqsButton.setText("Edit Prerequisites");
         editPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editPrereqsButtonActionPerformed(evt);
@@ -265,7 +265,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
 
-        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Semesters Offered", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Semesters Offered"));
         semOfferedPan.setLayout(new javax.swing.BoxLayout(semOfferedPan, javax.swing.BoxLayout.LINE_AXIS));
 
         occasionalBox.setText("Occasional");
@@ -351,6 +351,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         coursePlannerRightPan.add(semOfferedPan, java.awt.BorderLayout.NORTH);
 
+        courseSearchPan.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Course Options"));
         courseSearchPan.setLayout(new java.awt.BorderLayout());
 
         courseListScrollPane.setViewportView(courseList);
@@ -365,7 +366,6 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         });
         courseSearchPan.add(searchButton, java.awt.BorderLayout.SOUTH);
 
-        courseOptionsPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         courseOptionsPan.setLayout(new java.awt.GridLayout(1, 0));
 
         courseOptionsInsidePan.setLayout(new java.awt.GridLayout(1, 2));
