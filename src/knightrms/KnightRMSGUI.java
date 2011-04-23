@@ -52,7 +52,7 @@ public class KnightRMSGUI extends javax.swing.JFrame {
 
         coursePlannerTab.setBackground(new java.awt.Color(255, 255, 102));
         getContentPane().add(coursePlannerTab, java.awt.BorderLayout.CENTER);
-        coursePlannerTab.add(new KnightRMS.CoursePlannerPanel_NEW(this, db));
+        coursePlannerTab.add(new KnightRMS.CoursePlannerPanel(this, db));
         coursePlannerTab.setTitleAt(0, "Course Planner");
 
         pack();
