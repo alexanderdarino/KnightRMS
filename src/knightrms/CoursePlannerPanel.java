@@ -12,6 +12,12 @@
 package KnightRMS;
 
 import KnightEDU.Course;
+import KnightEDU.Credits;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
+import KnightEDU.Grade;
+import KnightEDU.Grade.Type;
 import KnightEDU.CourseID.PNS;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
@@ -425,66 +431,82 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_springEvenBoxActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-//                    // If course is in database, update course.
-//            if (db.containsCourse(courseID))
-//            {
-//                KnightEDU.Course c = db.getCourse(courseID);
-//                Credits credits = null;
-//                c.setName(name);
-//                c.setDescription(description);
-//                if(minCreditsField == null && maxCreditsField == null)
-//                    JOptionPane.showMessageDialog(KnightRMSGUI.this, "Please enter min and/or max credits.");
-//                else if(minCreditsField != null && maxCreditsField != null)
-//                {
-//                    int min = Integer.parseInt(minCreditsField.getText());
-//                    int max = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(min, max);
-//                }
-//                else if(minCreditsField == null)
-//                {
-//                    int cMax = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(cMax);
-//                }
-//                else
-//                {
-//                    int cMin = Integer.parseInt(minCreditsField.getText());
-//                    credits = Credits.createCredits(cMin);
-//                }
-//                c.setCredits(credits);
-//                c.setGradeType((Type)gradePrefBox.getSelectedItem());
-//            }
-//
-//            // Need a pop-up window here - if the user makes a typo in the course name,
-//            // we don't want it to add a new course. Popup window should say something like,
-//            // "Course not found in database. Add course to database?" and then have buttons
-//            // for yes or no.
-//
-//            // If course is not in database, add new course.
-//            else
-//            {
-//                Credits credits = null;
-//                if(minCreditsField == null && maxCreditsField == null)
-//                    JOptionPane.showMessageDialog(KnightRMSGUI.this, "Please enter min and/or max credits.");
-//                else if(minCreditsField != null && maxCreditsField != null)
-//                {
-//                    int min = Integer.parseInt(minCreditsField.getText());
-//                    int max = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(min, max);
-//                }
-//                else if(minCreditsField == null){
-//                    int c = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(c);
-//                }
-//                else {
-//                    int c = Integer.parseInt(minCreditsField.getText());
-//                    credits = Credits.createCredits(c);
-//                }
-//
-//
-//                Grade.Type type = (Type)gradePrefBox.getSelectedItem();
-//                //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
-//                db.addCourse(courseID, name, description, credits, type);
-//            }
+
+        // Get courseID elements.
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+
+        // Check to make sure the CourseID fields are filled out.
+        if(prefix == null || number == null || suffix == null)
+            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please specify a valid course ID.");
+
+        // Convert to courseID.
+        KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+
+        // If course is in database, update course.
+        if (db.containsCourse(courseID.toString()))
+        {
+            KnightEDU.Course c = db.getCourse(courseID.toString());
+            Credits credits = null;
+
+            // Update elements.
+            c.setName(nameField.getText());
+            c.setDescription(descriptionArea.getText());
+
+            // At least one of the credit fields must contain data.
+            if(minCreditsField == null && maxCreditsField == null)
+                JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
+            else if(minCreditsField != null && maxCreditsField != null)
+            {
+                int min = Integer.parseInt(minCreditsField.getText());
+                int max = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(min, max);
+            }
+            else if(minCreditsField == null)
+            {
+                int cMax = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(cMax);
+            }
+            else
+            {
+                int cMin = Integer.parseInt(minCreditsField.getText());
+                credits = Credits.createCredits(cMin);
+            }
+
+            // Update specified elements.
+            c.setCredits(credits);
+            c.setGradeType((Type) gradeTypeBox.getSelectedItem());
+        }
+
+        // If course is not in database, add new course.
+        else
+        {
+            Credits credits = null;
+            if(minCreditsField == null && maxCreditsField == null)
+                JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
+            else if(minCreditsField != null && maxCreditsField != null)
+            {
+                int min = Integer.parseInt(minCreditsField.getText());
+                int max = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(min, max);
+            }
+            else if(minCreditsField == null){
+                int c = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(c);
+            }
+            else {
+                int c = Integer.parseInt(minCreditsField.getText());
+                credits = Credits.createCredits(c);
+            }
+
+
+            Grade.Type type = (Type)gradeTypeBox.getSelectedItem();
+
+            // Add the course to the database.
+            //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
+            db.addCourse(courseID.toString(), nameField.getText(), descriptionArea.getText(), credits, type);
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -492,14 +514,13 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         String prefix = prefixField.getText();
         String number = numberField.getText();
         String suffix = suffixField.getText();
-
-        // Concatenate elements.
-        KnightEDU.CourseID cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-
+        // Convert to courseID.
+        KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+        
         // Check to make sure there is a course selected.
         if (courseList.getSelectedValue() != null)
         {
-            db.removeCourse(cID.toString());
+            db.removeCourse(courseID.toString());
         }
 
         // If not course is selected, display error msg.
@@ -512,33 +533,32 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
         KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
-
-        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS)courseQuery.specifyCourseID();
-
-        if (hasPrefix())
+        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS) courseQuery.specifyCourseID();
+        if (hasPrefix()) {
             try {
-            courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
-        } catch (InvalidPrefixException ex) {
-            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
+            } catch (InvalidPrefixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        if (hasNumber())
+        if (hasNumber()) {
             try {
-            courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
-        } catch (InvalidNumberException ex) {
-            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
+            } catch (InvalidNumberException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        if (hasSuffix())
+        if (hasSuffix()) {
             try {
-            courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
-        } catch (InvalidSuffixException ex) {
-            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
+            } catch (InvalidSuffixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
         courseQuery = courseIDQuery.build();
-
-        if (hasName())
+        if (hasName()) {
             courseQuery = courseQuery.nameContains(nameField.getText());
-
+        }
         Set<KnightEDU.Course> results = courseQuery.invoke();
 
         courseList.setListData(results.toArray());
