@@ -12,6 +12,7 @@
 package KnightRMS;
 
 import KnightEDU.Course;
+import KnightEDU.CourseID;
 import KnightEDU.Credits;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
@@ -122,6 +123,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseSearchPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course Listing"));
         courseSearchPan.setLayout(new java.awt.BorderLayout());
 
+        courseList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                courseListValueChanged(evt);
+            }
+        });
         courseListScrollPane.setViewportView(courseList);
 
         courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
@@ -596,6 +602,31 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         prereqBuilder = null;
         prereqTextArea.setText("");
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
+
+    private void courseListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_courseListValueChanged
+        if (courseList.isSelectionEmpty()){
+            return;
+        }
+        Course selected = null;
+        try{
+            selected = (Course) courseList.getSelectedValue();
+        } catch(CourseNotFoundException e){
+            System.err.print("Something went very wrong.");
+            return;
+        }
+
+        CourseID cID = selected.getId();
+
+        nameField.setText(selected.getName());
+        descriptionArea.setText(selected.getDescription());
+
+        if (selected.getPrereqsString().equals("") != true){
+            prqsDisp.setText(selected.getPrereqsString());
+        } else {
+            prqsDisp.setText("None.");
+        }
+        semsDisp.setText(selected.getSemestersString());
+    }//GEN-LAST:event_courseListValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
