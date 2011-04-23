@@ -26,6 +26,8 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private KnightEDU.DBMS.SQL.DB db;
     private Frame parent;
+    private Prerequisites.Builder prereqBuilder = null;
+
     
     public CoursePlannerPanel(Frame parent, KnightEDU.DBMS.SQL.DB db)
     {
@@ -95,11 +97,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         summerEvenBox = new javax.swing.JCheckBox();
         summerOddBox = new javax.swing.JCheckBox();
         prerequisitesPanel = new javax.swing.JPanel();
-        prereqsListScrollPane = new javax.swing.JScrollPane();
-        prereqsList = new javax.swing.JList();
         prereqsButtonsPanel = new javax.swing.JPanel();
-        addPrereqsButton = new javax.swing.JButton();
-        removePrereqsButton = new javax.swing.JButton();
+        addCoursePrereqsButton = new javax.swing.JButton();
+        resetPrereqsButton = new javax.swing.JButton();
+        prereqTextAreaScrollPane = new javax.swing.JScrollPane();
+        prereqTextArea = new javax.swing.JTextArea();
         descriptionAreaPanel = new javax.swing.JPanel();
         descriptionAreaScrollPane = new javax.swing.JScrollPane();
         descriptionArea = new javax.swing.JTextArea();
@@ -333,29 +335,35 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Prerequisites"));
         prerequisitesPanel.setLayout(new java.awt.BorderLayout());
 
-        prereqsListScrollPane.setViewportView(prereqsList);
-
-        prerequisitesPanel.add(prereqsListScrollPane, java.awt.BorderLayout.CENTER);
-
         prereqsButtonsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        addPrereqsButton.setText("Add");
-        addPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
+        addCoursePrereqsButton.setText("Add Course Prerequisites");
+        addCoursePrereqsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPrereqsButtonActionPerformed(evt);
+                addCoursePrereqsButtonActionPerformed(evt);
             }
         });
-        prereqsButtonsPanel.add(addPrereqsButton);
+        prereqsButtonsPanel.add(addCoursePrereqsButton);
 
-        removePrereqsButton.setText("Remove");
-        removePrereqsButton.addActionListener(new java.awt.event.ActionListener() {
+        resetPrereqsButton.setText("Reset Prerequisites");
+        resetPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removePrereqsButtonActionPerformed(evt);
+                resetPrereqsButtonActionPerformed(evt);
             }
         });
-        prereqsButtonsPanel.add(removePrereqsButton);
+        prereqsButtonsPanel.add(resetPrereqsButton);
 
         prerequisitesPanel.add(prereqsButtonsPanel, java.awt.BorderLayout.SOUTH);
+
+        prereqTextAreaScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        prereqTextArea.setColumns(20);
+        prereqTextArea.setEditable(false);
+        prereqTextArea.setLineWrap(true);
+        prereqTextArea.setRows(5);
+        prereqTextAreaScrollPane.setViewportView(prereqTextArea);
+
+        prerequisitesPanel.add(prereqTextAreaScrollPane, java.awt.BorderLayout.PAGE_START);
 
         courseInfoTopPanel.add(prerequisitesPanel);
 
@@ -525,7 +533,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
 }//GEN-LAST:event_prefixFieldActionPerformed
 
-    private void addPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPrereqsButtonActionPerformed
+    private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
 
         // Course not selected
         if (prefixField == null || numberField == null || suffixField == null) {
@@ -535,28 +543,34 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         else
         {
             Prerequisites.Builder b;
-            new PrereqEdit(null, true, this.db).setVisible(true);
+            //new PrereqEdit(null, true, this.db).setVisible(true);
+            b = PrereqEdit.showDialog();
+
+            if (b == null) return;
+
+            if (prereqBuilder == null)
+            {
+                prereqBuilder = b;
+                prereqTextArea.setText(prereqBuilder.build().toString());
+                return;
+            }
+
+            prereqBuilder = prereqBuilder.and(b);
+
+            prereqTextArea.setText(prereqBuilder.build().toString());
         }
-    }//GEN-LAST:event_addPrereqsButtonActionPerformed
+    }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
 
-    private void removePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removePrereqsButtonActionPerformed
-        // Get course ID elements
-        String prefix = prefixField.getText();
-        String number = numberField.getText();
-        String suffix = numberField.getText();
-
-        // Make the course ID
-        PNS cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-
-        KnightEDU.Course c = db.getCourse(cID.toString());
-        c.setPrerequisites(null);
+    private void resetPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPrereqsButtonActionPerformed
+        prereqBuilder = null;
+        prereqTextArea.setText("");
 
 
-    }//GEN-LAST:event_removePrereqsButtonActionPerformed
+    }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addPrereqsButton;
+    private javax.swing.JButton addCoursePrereqsButton;
     private javax.swing.JPanel courseIDPanel;
     private javax.swing.JPanel courseInfoPanel;
     private javax.swing.JPanel courseInfoTopPanel;
@@ -594,12 +608,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox occasionalBox;
     private javax.swing.JTextField prefixField;
     private javax.swing.JPanel prefixPanel;
+    private javax.swing.JTextArea prereqTextArea;
+    private javax.swing.JScrollPane prereqTextAreaScrollPane;
     private javax.swing.JPanel prereqsButtonsPanel;
-    private javax.swing.JList prereqsList;
-    private javax.swing.JScrollPane prereqsListScrollPane;
     private javax.swing.JPanel prerequisitesPanel;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton removePrereqsButton;
+    private javax.swing.JButton resetPrereqsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JPanel semOfferedPan;
