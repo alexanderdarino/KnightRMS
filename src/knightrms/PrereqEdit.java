@@ -24,13 +24,24 @@ import java.awt.Frame;
  */
 public class PrereqEdit extends javax.swing.JDialog {
 
-    private KnightEDU.DBMS.SQL.DB db;
+    private KnightEDU.Prerequisites.Builder builder = null;
+
     /** Creates new form PrereqEdit */
-    public PrereqEdit(Frame parent, boolean modal, DB database)
+    public static KnightEDU.Prerequisites.Builder showDialog(){
+        PrereqEdit dialog = new PrereqEdit(null, true);
+        return dialog.getPrerequisitesBuilder();
+    }
+
+    private PrereqEdit(Frame parent, boolean modal)
     {
         super(parent, modal);
         initComponents();
-        db = database;
+        setVisible(true);
+    }
+
+    private KnightEDU.Prerequisites.Builder getPrerequisitesBuilder()
+    {
+        return builder;
     }
 
     /** This method is called from within the constructor to
@@ -129,7 +140,7 @@ public class PrereqEdit extends javax.swing.JDialog {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
@@ -137,27 +148,20 @@ public class PrereqEdit extends javax.swing.JDialog {
         // Get course ID elements
         String prefix = prefixField.getText();
         String number = numberField.getText();
-        String suffix = numberField.getText();
-
-        // Make the course ID
-        PNS cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+        String suffix = suffixField.getText();
 
         // Get minimum passing grade
         String grade = minPassingGradeField.getText();
-        KnightEDU.Grade g = KnightEDU.Grade.Letter.create(grade);
 
-        // Create prerequisites object
-        Prerequisites p = Prerequisites.Builder.course(cID).build();
-
-        // Get course to be edited
-        KnightEDU.Course c = db.getCourse(cID.toString());
-
-        // Update course and add to database
-        c.setPrerequisites(p);
-        db.updateCourse(c);
-
-        // Close window
-        this.setVisible(false);
+        if (minPassingGradeField.getText().equals(""))
+        {
+            builder = Prerequisites.Builder.course(KnightEDU.CourseID.PNS.create(prefix, number, suffix));
+            dispose();
+            return;
+        }
+        builder = Prerequisites.Builder.course(KnightEDU.CourseID.PNS.create(prefix, number, suffix),
+                KnightEDU.Grade.Letter.create(grade));
+        this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
