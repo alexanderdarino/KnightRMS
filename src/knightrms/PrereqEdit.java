@@ -11,10 +11,6 @@
 
 package KnightRMS;
 
-import KnightEDU.CourseID.PNS;
-import KnightEDU.DBMS.Course;
-import KnightEDU.DBMS.CourseID;
-import KnightEDU.DBMS.SQL.DB;
 import KnightEDU.Prerequisites;
 import java.awt.Frame;
 

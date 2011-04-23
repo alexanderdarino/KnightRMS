@@ -13,9 +13,14 @@ package KnightRMS;
 
 import KnightEDU.Course;
 import KnightEDU.CourseID.PNS;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
 import KnightEDU.Prerequisites;
 import java.awt.Frame;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -486,15 +491,16 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         // Get courseID elements.
         String prefix = prefixField.getText();
         String number = numberField.getText();
-        String suffix = numberField.getText();
+        String suffix = suffixField.getText();
+
         // Concatenate elements.
-        String cID = prefix.concat(number).concat(suffix);
+        KnightEDU.CourseID cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
 
         // Check to make sure there is a course selected.
         if (courseList.getSelectedValue() != null)
-            {
-                db.removeCourse(cID);
-            }
+        {
+            db.removeCourse(cID.toString());
+        }
 
         // If not course is selected, display error msg.
         else
@@ -510,11 +516,23 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS)courseQuery.specifyCourseID();
 
         if (hasPrefix())
+            try {
             courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
+        } catch (InvalidPrefixException ex) {
+            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (hasNumber())
+            try {
             courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
+        } catch (InvalidNumberException ex) {
+            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (hasSuffix())
+            try {
             courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
+        } catch (InvalidSuffixException ex) {
+            Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         courseQuery = courseIDQuery.build();
 
@@ -522,6 +540,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             courseQuery = courseQuery.nameContains(nameField.getText());
 
         Set<KnightEDU.Course> results = courseQuery.invoke();
+
+        courseList.setListData(results.toArray());
+        courseList.getSelectedValue();
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -535,6 +556,13 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
 
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+
+        // Concatenate elements.
+        KnightEDU.CourseID cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+
         // Course not selected
         if (prefixField == null || numberField == null || suffixField == null) {
             JOptionPane.showMessageDialog(null, "Valid Course ID required");
@@ -543,7 +571,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         else
         {
             Prerequisites.Builder b;
-            //new PrereqEdit(null, true, this.db).setVisible(true);
             b = PrereqEdit.showDialog();
 
             if (b == null) return;
@@ -558,14 +585,16 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             prereqBuilder = prereqBuilder.and(b);
 
             prereqTextArea.setText(prereqBuilder.build().toString());
+
+            Course c = db.getCourse(cID.toString());
+            c.setPrerequisites(prereqBuilder.build());
+            db.updateCourse(c);
         }
     }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
 
     private void resetPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPrereqsButtonActionPerformed
         prereqBuilder = null;
         prereqTextArea.setText("");
-
-
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
 
