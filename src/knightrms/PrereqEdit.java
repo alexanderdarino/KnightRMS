@@ -150,9 +150,6 @@ public class PrereqEdit extends javax.swing.JDialog {
         String number = numberField.getText();
         String suffix = suffixField.getText();
 
-        // Make the course ID
-        PNS cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-
         // Get minimum passing grade
         String grade = minPassingGradeField.getText();
 
