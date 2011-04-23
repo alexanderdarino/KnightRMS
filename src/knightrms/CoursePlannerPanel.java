@@ -445,7 +445,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
 
         // If course is in database, update course.
-        if (db.containsCourse(courseID.toString()))
+        if (this.db.containsCourse(courseID.toString()))
         {
             KnightEDU.Course c = db.getCourse(courseID.toString());
             Credits credits = null;
@@ -507,6 +507,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
             db.addCourse(courseID.toString(), nameField.getText(), descriptionArea.getText(), credits, type);
         }
+
+        // Save any prerequisite changes.
+        Course c = db.getCourse(courseID.toString());
+        c.setPrerequisites(prereqBuilder.build());
+        db.updateCourse(c);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -605,10 +610,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             prereqBuilder = prereqBuilder.and(b);
 
             prereqTextArea.setText(prereqBuilder.build().toString());
-
-            Course c = db.getCourse(cID.toString());
-            c.setPrerequisites(prereqBuilder.build());
-            db.updateCourse(c);
         }
     }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
 
