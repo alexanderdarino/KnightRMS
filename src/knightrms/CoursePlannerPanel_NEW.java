@@ -11,8 +11,10 @@
 
 package KnightRMS;
 
+import KnightEDU.Course;
 import java.awt.Frame;
 import java.util.Set;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,36 +48,39 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         coursePlannerLeftPan = new javax.swing.JPanel();
-        courseInfoTopPan = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        courseInfoPanel = new javax.swing.JPanel();
+        courseInfoTopPanel = new javax.swing.JPanel();
+        courseIDPanel = new javax.swing.JPanel();
+        prefixPanel = new javax.swing.JPanel();
         coursePrefixLab2 = new javax.swing.JLabel();
         prefixField = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
+        numberPanel = new javax.swing.JPanel();
         courseNumLab = new javax.swing.JLabel();
         numberField = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
+        suffixPanel = new javax.swing.JPanel();
         courseSuffixLab = new javax.swing.JLabel();
         suffixField = new javax.swing.JTextField();
-        courseNamePan1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        courseNamePanel = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        gradePrefPan1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        gradePrefBox1 = new javax.swing.JComboBox();
-        creditsPan2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        creditsMinLab2 = new javax.swing.JLabel();
+        gradeTypeAndCreditsPanel = new javax.swing.JPanel();
+        gradePrefPan = new javax.swing.JPanel();
+        gradeTypeLabel = new javax.swing.JLabel();
+        gradeTypeBox = new javax.swing.JComboBox();
+        creditsPanel = new javax.swing.JPanel();
+        minCreditsPanel = new javax.swing.JPanel();
+        creditsMinLab = new javax.swing.JLabel();
         minCreditsField = new javax.swing.JTextField();
-        jPanel6 = new javax.swing.JPanel();
-        creditsMaxLab2 = new javax.swing.JLabel();
+        maxCreditsPanel = new javax.swing.JPanel();
+        creditsMaxLab = new javax.swing.JLabel();
         maxCreditsField = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        descriptionAreaPanel = new javax.swing.JPanel();
+        descriptionAreaScrollPane = new javax.swing.JScrollPane();
         descriptionArea = new javax.swing.JTextArea();
-        prerequisitesPanel1 = new KnightRMS.PrerequisitesPanel();
+        prerequisitesPanel = new javax.swing.JPanel();
+        prereqsListScrollPane = new javax.swing.JScrollPane();
+        prereqsList = new javax.swing.JList();
+        editPrereqsButton = new javax.swing.JButton();
         coursePlannerSeparator = new javax.swing.JSeparator();
         coursePlannerRightPan = new javax.swing.JPanel();
         semOfferedPan = new javax.swing.JPanel();
@@ -100,145 +105,158 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
 
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
+        coursePlannerLeftPan.setMinimumSize(coursePlannerLeftPan.getPreferredSize());
         coursePlannerLeftPan.setLayout(new java.awt.BorderLayout());
 
-        courseInfoTopPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        courseInfoTopPan.setMinimumSize(courseInfoTopPan.getPreferredSize());
-        courseInfoTopPan.setPreferredSize(courseInfoTopPan.getMinimumSize());
-        courseInfoTopPan.setLayout(new java.awt.BorderLayout());
+        courseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        courseInfoPanel.setMinimumSize(courseInfoPanel.getPreferredSize());
+        courseInfoPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
+        courseInfoTopPanel.setLayout(new javax.swing.BoxLayout(courseInfoTopPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("CourseID"));
-
-        jPanel10.setLayout(new java.awt.GridBagLayout());
+        courseIDPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("CourseID"));
 
         coursePrefixLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         coursePrefixLab2.setText("Prefix: ");
-        jPanel10.add(coursePrefixLab2, new java.awt.GridBagConstraints());
+        prefixPanel.add(coursePrefixLab2);
 
         prefixField.setColumns(3);
+        prefixField.setMinimumSize(prefixField.getPreferredSize());
         prefixField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prefixFieldActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        jPanel10.add(prefixField, gridBagConstraints);
+        prefixPanel.add(prefixField);
 
-        jPanel3.add(jPanel10);
+        courseIDPanel.add(prefixPanel);
 
-        jPanel8.setLayout(new java.awt.GridBagLayout());
+        numberPanel.setLayout(new java.awt.GridBagLayout());
 
         courseNumLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         courseNumLab.setText(" Number: ");
-        jPanel8.add(courseNumLab, new java.awt.GridBagConstraints());
+        numberPanel.add(courseNumLab, new java.awt.GridBagConstraints());
 
         numberField.setColumns(4);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        jPanel8.add(numberField, gridBagConstraints);
+        numberPanel.add(numberField, gridBagConstraints);
 
-        jPanel3.add(jPanel8);
+        courseIDPanel.add(numberPanel);
 
-        jPanel9.setLayout(new java.awt.GridBagLayout());
+        suffixPanel.setLayout(new java.awt.GridBagLayout());
 
         courseSuffixLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         courseSuffixLab.setText(" Suffix: ");
-        jPanel9.add(courseSuffixLab, new java.awt.GridBagConstraints());
+        suffixPanel.add(courseSuffixLab, new java.awt.GridBagConstraints());
 
         suffixField.setColumns(1);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        jPanel9.add(suffixField, gridBagConstraints);
+        suffixPanel.add(suffixField, gridBagConstraints);
 
-        jPanel3.add(jPanel9);
+        courseIDPanel.add(suffixPanel);
 
-        jPanel2.add(jPanel3);
+        courseInfoTopPanel.add(courseIDPanel);
 
-        courseNamePan1.setLayout(new java.awt.GridBagLayout());
+        courseNamePanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel3.setText("Name:");
-        courseNamePan1.add(jLabel3, new java.awt.GridBagConstraints());
+        nameLabel.setText("Name:");
+        courseNamePanel.add(nameLabel, new java.awt.GridBagConstraints());
 
         nameField.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        courseNamePan1.add(nameField, gridBagConstraints);
+        courseNamePanel.add(nameField, gridBagConstraints);
 
-        jPanel2.add(courseNamePan1);
+        courseInfoTopPanel.add(courseNamePanel);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
+        gradeTypeAndCreditsPanel.setLayout(new javax.swing.BoxLayout(gradeTypeAndCreditsPanel, javax.swing.BoxLayout.X_AXIS));
 
-        jLabel5.setText("Grade Type:");
-        gradePrefPan1.add(jLabel5);
+        gradeTypeLabel.setText("Grade Type:");
+        gradePrefPan.add(gradeTypeLabel);
 
-        gradePrefBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Letter", "S / U" }));
-        gradePrefBox1.addActionListener(new java.awt.event.ActionListener() {
+        gradeTypeBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Letter", "S / U" }));
+        gradeTypeBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gradePrefBox1ActionPerformed(evt);
+                gradeTypeBoxActionPerformed(evt);
             }
         });
-        gradePrefPan1.add(gradePrefBox1);
+        gradePrefPan.add(gradeTypeBox);
 
-        jPanel1.add(gradePrefPan1);
+        gradeTypeAndCreditsPanel.add(gradePrefPan);
 
-        creditsPan2.setBorder(javax.swing.BorderFactory.createTitledBorder("Credits"));
-        creditsPan2.setLayout(new javax.swing.BoxLayout(creditsPan2, javax.swing.BoxLayout.LINE_AXIS));
+        creditsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Credits"));
+        creditsPanel.setLayout(new javax.swing.BoxLayout(creditsPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel5.setMinimumSize(jPanel5.getPreferredSize());
+        minCreditsPanel.setMinimumSize(minCreditsPanel.getPreferredSize());
 
-        creditsMinLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        creditsMinLab2.setText("Min: ");
-        jPanel5.add(creditsMinLab2);
+        creditsMinLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        creditsMinLab.setText("Min: ");
+        minCreditsPanel.add(creditsMinLab);
 
         minCreditsField.setColumns(2);
-        jPanel5.add(minCreditsField);
+        minCreditsPanel.add(minCreditsField);
 
-        creditsPan2.add(jPanel5);
+        creditsPanel.add(minCreditsPanel);
 
-        jPanel6.setMinimumSize(jPanel6.getPreferredSize());
+        maxCreditsPanel.setMinimumSize(maxCreditsPanel.getPreferredSize());
 
-        creditsMaxLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        creditsMaxLab2.setText("Max: ");
-        jPanel6.add(creditsMaxLab2);
+        creditsMaxLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        creditsMaxLab.setText("Max: ");
+        maxCreditsPanel.add(creditsMaxLab);
 
         maxCreditsField.setColumns(2);
-        jPanel6.add(maxCreditsField);
+        maxCreditsPanel.add(maxCreditsField);
 
-        creditsPan2.add(jPanel6);
+        creditsPanel.add(maxCreditsPanel);
 
-        jPanel1.add(creditsPan2);
+        gradeTypeAndCreditsPanel.add(creditsPanel);
 
-        jPanel2.add(jPanel1);
+        courseInfoTopPanel.add(gradeTypeAndCreditsPanel);
 
-        courseInfoTopPan.add(jPanel2, java.awt.BorderLayout.NORTH);
+        courseInfoPanel.add(courseInfoTopPanel, java.awt.BorderLayout.NORTH);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Description"));
-        jPanel4.setLayout(new java.awt.BorderLayout());
+        descriptionAreaPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Description"));
+        descriptionAreaPanel.setLayout(new java.awt.BorderLayout());
 
-        jScrollPane2.setHorizontalScrollBar(null);
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 96));
+        descriptionAreaScrollPane.setHorizontalScrollBar(null);
+        descriptionAreaScrollPane.setPreferredSize(new java.awt.Dimension(200, 96));
 
         descriptionArea.setColumns(10000);
         descriptionArea.setLineWrap(true);
         descriptionArea.setRows(5);
-        jScrollPane2.setViewportView(descriptionArea);
+        descriptionAreaScrollPane.setViewportView(descriptionArea);
 
-        jPanel4.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        descriptionAreaPanel.add(descriptionAreaScrollPane, java.awt.BorderLayout.CENTER);
 
-        courseInfoTopPan.add(jPanel4, java.awt.BorderLayout.CENTER);
+        courseInfoPanel.add(descriptionAreaPanel, java.awt.BorderLayout.CENTER);
 
-        coursePlannerLeftPan.add(courseInfoTopPan, java.awt.BorderLayout.WEST);
-        coursePlannerLeftPan.add(prerequisitesPanel1, java.awt.BorderLayout.CENTER);
+        coursePlannerLeftPan.add(courseInfoPanel, java.awt.BorderLayout.WEST);
+
+        prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prerequisites", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        prerequisitesPanel.setLayout(new java.awt.BorderLayout());
+
+        prereqsListScrollPane.setViewportView(prereqsList);
+
+        prerequisitesPanel.add(prereqsListScrollPane, java.awt.BorderLayout.CENTER);
+
+        editPrereqsButton.setText("jButton1");
+        editPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editPrereqsButtonActionPerformed(evt);
+            }
+        });
+        prerequisitesPanel.add(editPrereqsButton, java.awt.BorderLayout.SOUTH);
+
+        coursePlannerLeftPan.add(prerequisitesPanel, java.awt.BorderLayout.CENTER);
 
         add(coursePlannerLeftPan);
 
@@ -335,7 +353,6 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         courseSearchPan.setLayout(new java.awt.BorderLayout());
 
-        courseList.setBackground(new java.awt.Color(204, 255, 255));
         courseListScrollPane.setViewportView(courseList);
 
         courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
@@ -487,21 +504,43 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 //    Set<KnightEDU.Course> results = courseQuery.invoke();
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void gradePrefBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradePrefBox1ActionPerformed
+    private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_gradePrefBox1ActionPerformed
+    }//GEN-LAST:event_gradeTypeBoxActionPerformed
 
     private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_prefixFieldActionPerformed
     {//GEN-HEADEREND:event_prefixFieldActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_prefixFieldActionPerformed
 
+    private void editPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPrereqsButtonActionPerformed
+        // TODO add your handling code here:
+        new PrereqEdit(null, true).setVisible(true);
+        if (prefixField == null || numberField == null || suffixField == null) {
+            JOptionPane.showMessageDialog(null, "Valid Course ID required");
+
+            return;
+        } else {
+            new PrereqEdit(null, true).setVisible(true);
+        }
+             if (courseList.getSelectedValue() != null)
+            {
+                // open prerequisites window
+                Course c = (Course) courseList.getSelectedValue();
+
+            }
+            else
+                JOptionPane.showMessageDialog(null, "No course is selected.");
+    }//GEN-LAST:event_editPrereqsButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel courseInfoTopPan;
+    private javax.swing.JPanel courseIDPanel;
+    private javax.swing.JPanel courseInfoPanel;
+    private javax.swing.JPanel courseInfoTopPanel;
     private javax.swing.JList courseList;
     private javax.swing.JScrollPane courseListScrollPane;
-    private javax.swing.JPanel courseNamePan1;
+    private javax.swing.JPanel courseNamePanel;
     private javax.swing.JLabel courseNumLab;
     private javax.swing.JPanel courseOptionsInsidePan;
     private javax.swing.JPanel courseOptionsPan;
@@ -511,34 +550,34 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JLabel coursePrefixLab2;
     private javax.swing.JPanel courseSearchPan;
     private javax.swing.JLabel courseSuffixLab;
-    private javax.swing.JLabel creditsMaxLab2;
-    private javax.swing.JLabel creditsMinLab2;
-    private javax.swing.JPanel creditsPan2;
+    private javax.swing.JLabel creditsMaxLab;
+    private javax.swing.JLabel creditsMinLab;
+    private javax.swing.JPanel creditsPanel;
     private javax.swing.JTextArea descriptionArea;
+    private javax.swing.JPanel descriptionAreaPanel;
+    private javax.swing.JScrollPane descriptionAreaScrollPane;
+    private javax.swing.JButton editPrereqsButton;
     private javax.swing.JCheckBox fallEvenBox;
     private javax.swing.JLabel fallLab;
     private javax.swing.JCheckBox fallOddBox;
-    private javax.swing.JComboBox gradePrefBox1;
-    private javax.swing.JPanel gradePrefPan1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel gradePrefPan;
+    private javax.swing.JPanel gradeTypeAndCreditsPanel;
+    private javax.swing.JComboBox gradeTypeBox;
+    private javax.swing.JLabel gradeTypeLabel;
     private javax.swing.JTextField maxCreditsField;
+    private javax.swing.JPanel maxCreditsPanel;
     private javax.swing.JTextField minCreditsField;
+    private javax.swing.JPanel minCreditsPanel;
     private javax.swing.JTextField nameField;
+    private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField numberField;
+    private javax.swing.JPanel numberPanel;
     private javax.swing.JCheckBox occasionalBox;
     private javax.swing.JTextField prefixField;
-    private KnightRMS.PrerequisitesPanel prerequisitesPanel1;
+    private javax.swing.JPanel prefixPanel;
+    private javax.swing.JList prereqsList;
+    private javax.swing.JScrollPane prereqsListScrollPane;
+    private javax.swing.JPanel prerequisitesPanel;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
@@ -549,6 +588,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JLabel springLab;
     private javax.swing.JCheckBox springOddBox;
     private javax.swing.JTextField suffixField;
+    private javax.swing.JPanel suffixPanel;
     private javax.swing.JCheckBox summerEvenBox;
     private javax.swing.JLabel summerLab;
     private javax.swing.JCheckBox summerOddBox;
