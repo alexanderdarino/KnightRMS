@@ -49,7 +49,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         courseInfoTopPan = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
         coursePrefixLab2 = new javax.swing.JLabel();
         prefixField = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
@@ -102,23 +102,22 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
-        coursePlannerLeftPan.setLayout(new javax.swing.BoxLayout(coursePlannerLeftPan, javax.swing.BoxLayout.LINE_AXIS));
+        coursePlannerLeftPan.setLayout(new java.awt.BorderLayout());
 
         courseInfoTopPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        courseInfoTopPan.setMinimumSize(courseInfoTopPan.getPreferredSize());
         courseInfoTopPan.setPreferredSize(courseInfoTopPan.getMinimumSize());
         courseInfoTopPan.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("CourseID"));
-        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
 
-        jPanel7.setPreferredSize(jPanel7.getMinimumSize());
-        jPanel7.setLayout(new java.awt.GridBagLayout());
+        jPanel10.setLayout(new java.awt.GridBagLayout());
 
         coursePrefixLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         coursePrefixLab2.setText("Prefix: ");
-        jPanel7.add(coursePrefixLab2, new java.awt.GridBagConstraints());
+        jPanel10.add(coursePrefixLab2, new java.awt.GridBagConstraints());
 
         prefixField.setColumns(3);
         prefixField.addActionListener(new java.awt.event.ActionListener() {
@@ -128,13 +127,10 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        jPanel7.add(prefixField, gridBagConstraints);
+        jPanel10.add(prefixField, gridBagConstraints);
 
-        jPanel3.add(jPanel7);
+        jPanel3.add(jPanel10);
 
-        jPanel8.setPreferredSize(jPanel8.getMinimumSize());
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
         courseNumLab.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
@@ -165,25 +161,22 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         jPanel3.add(jPanel9);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel2.add(jPanel3, gridBagConstraints);
+        jPanel2.add(jPanel3);
+
+        courseNamePan1.setLayout(new java.awt.GridBagLayout());
 
         jLabel3.setText("Name:");
-        courseNamePan1.add(jLabel3);
+        courseNamePan1.add(jLabel3, new java.awt.GridBagConstraints());
 
         nameField.setColumns(20);
-        courseNamePan1.add(nameField);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        jPanel2.add(courseNamePan1, gridBagConstraints);
+        courseNamePan1.add(nameField, gridBagConstraints);
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanel2.add(courseNamePan1);
+
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
 
         jLabel5.setText("Grade Type:");
         gradePrefPan1.add(jLabel5);
@@ -196,10 +189,12 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         });
         gradePrefPan1.add(gradePrefBox1);
 
-        jPanel1.add(gradePrefPan1, new java.awt.GridBagConstraints());
+        jPanel1.add(gradePrefPan1);
 
         creditsPan2.setBorder(javax.swing.BorderFactory.createTitledBorder("Credits"));
-        creditsPan2.setLayout(new java.awt.GridBagLayout());
+        creditsPan2.setLayout(new javax.swing.BoxLayout(creditsPan2, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel5.setMinimumSize(jPanel5.getPreferredSize());
 
         creditsMinLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         creditsMinLab2.setText("Min: ");
@@ -208,7 +203,9 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         minCreditsField.setColumns(2);
         jPanel5.add(minCreditsField);
 
-        creditsPan2.add(jPanel5, new java.awt.GridBagConstraints());
+        creditsPan2.add(jPanel5);
+
+        jPanel6.setMinimumSize(jPanel6.getPreferredSize());
 
         creditsMaxLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         creditsMaxLab2.setText("Max: ");
@@ -217,14 +214,11 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         maxCreditsField.setColumns(2);
         jPanel6.add(maxCreditsField);
 
-        creditsPan2.add(jPanel6, new java.awt.GridBagConstraints());
+        creditsPan2.add(jPanel6);
 
-        jPanel1.add(creditsPan2, new java.awt.GridBagConstraints());
+        jPanel1.add(creditsPan2);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        jPanel2.add(jPanel1, gridBagConstraints);
+        jPanel2.add(jPanel1);
 
         courseInfoTopPan.add(jPanel2, java.awt.BorderLayout.NORTH);
 
@@ -232,6 +226,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jScrollPane2.setHorizontalScrollBar(null);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(200, 96));
 
         descriptionArea.setColumns(10000);
         descriptionArea.setLineWrap(true);
@@ -242,8 +237,8 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         courseInfoTopPan.add(jPanel4, java.awt.BorderLayout.CENTER);
 
-        coursePlannerLeftPan.add(courseInfoTopPan);
-        coursePlannerLeftPan.add(prerequisitesPanel1);
+        coursePlannerLeftPan.add(courseInfoTopPan, java.awt.BorderLayout.WEST);
+        coursePlannerLeftPan.add(prerequisitesPanel1, java.awt.BorderLayout.CENTER);
 
         add(coursePlannerLeftPan);
 
@@ -267,14 +262,16 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         semOfferedSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
         semOfferedPan.add(semOfferedSeparator);
 
-        semOfferedSemPan.setLayout(new java.awt.GridLayout(3, 3, 40, 20));
+        semOfferedSemPan.setLayout(new java.awt.GridBagLayout());
 
         fallLab.setText("     Fall:");
-        semOfferedSemPan.add(fallLab);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        semOfferedSemPan.add(fallLab, gridBagConstraints);
 
         fallEvenBox.setText("Even");
         fallEvenBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        semOfferedSemPan.add(fallEvenBox);
+        semOfferedSemPan.add(fallEvenBox, new java.awt.GridBagConstraints());
 
         fallOddBox.setText("Odd");
         fallOddBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -283,10 +280,14 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
                 fallOddBoxActionPerformed(evt);
             }
         });
-        semOfferedSemPan.add(fallOddBox);
+        semOfferedSemPan.add(fallOddBox, new java.awt.GridBagConstraints());
 
         springLab.setText("     Spring:");
-        semOfferedSemPan.add(springLab);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        semOfferedSemPan.add(springLab, gridBagConstraints);
 
         springEvenBox.setText("Even");
         springEvenBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -295,22 +296,38 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
                 springEvenBoxActionPerformed(evt);
             }
         });
-        semOfferedSemPan.add(springEvenBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        semOfferedSemPan.add(springEvenBox, gridBagConstraints);
 
         springOddBox.setText("Odd");
         springOddBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        semOfferedSemPan.add(springOddBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        semOfferedSemPan.add(springOddBox, gridBagConstraints);
 
         summerLab.setText("     Summer:");
-        semOfferedSemPan.add(summerLab);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        semOfferedSemPan.add(summerLab, gridBagConstraints);
 
         summerEvenBox.setText("Even");
         summerEvenBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        semOfferedSemPan.add(summerEvenBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        semOfferedSemPan.add(summerEvenBox, gridBagConstraints);
 
         summerOddBox.setText("Odd");
         summerOddBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        semOfferedSemPan.add(summerOddBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        semOfferedSemPan.add(summerOddBox, gridBagConstraints);
 
         semOfferedPan.add(semOfferedSemPan);
 
@@ -474,7 +491,8 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_gradePrefBox1ActionPerformed
 
-    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prefixFieldActionPerformed
+    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_prefixFieldActionPerformed
+    {//GEN-HEADEREND:event_prefixFieldActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_prefixFieldActionPerformed
 
@@ -505,12 +523,12 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;

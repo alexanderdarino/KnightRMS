@@ -39,12 +39,12 @@ public class PrerequisitesPanel extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createTitledBorder("Prerequisites"));
         setMinimumSize(new java.awt.Dimension(200, 72));
         setPreferredSize(getMinimumSize());
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+        setLayout(new java.awt.BorderLayout());
 
         prereqList.setBackground(new java.awt.Color(204, 255, 255));
         prereqListScrollPane.setViewportView(prereqList);
 
-        add(prereqListScrollPane);
+        add(prereqListScrollPane, java.awt.BorderLayout.CENTER);
 
         editPrereqsButton.setText("Edit Prerequisites");
         editPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
@@ -52,7 +52,7 @@ public class PrerequisitesPanel extends javax.swing.JPanel {
                 editPrereqsButtonActionPerformed(evt);
             }
         });
-        add(editPrereqsButton);
+        add(editPrereqsButton, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void editPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPrereqsButtonActionPerformed
