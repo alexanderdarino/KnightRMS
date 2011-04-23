@@ -11,6 +11,11 @@
 
 package KnightRMS;
 
+import KnightEDU.CourseID.PNS;
+import KnightEDU.DBMS.Course;
+import KnightEDU.DBMS.CourseID;
+import KnightEDU.DBMS.SQL.DB;
+import KnightEDU.Prerequisites;
 import java.awt.Frame;
 
 /**
@@ -19,10 +24,13 @@ import java.awt.Frame;
  */
 public class PrereqEdit extends javax.swing.JDialog {
 
+    private KnightEDU.DBMS.SQL.DB db;
     /** Creates new form PrereqEdit */
-    public PrereqEdit(Frame parent, boolean modal) {
+    public PrereqEdit(Frame parent, boolean modal, DB database)
+    {
         super(parent, modal);
         initComponents();
+        db = database;
     }
 
     /** This method is called from within the constructor to
@@ -95,6 +103,11 @@ public class PrereqEdit extends javax.swing.JDialog {
         prereqButtonPan.setLayout(new java.awt.GridLayout(1, 0));
 
         okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
         prereqButtonPan.add(okButton);
 
         cancelButton.setText("Cancel");
@@ -118,6 +131,34 @@ public class PrereqEdit extends javax.swing.JDialog {
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        
+        // Get course ID elements
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = numberField.getText();
+
+        // Make the course ID
+        PNS cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+
+        // Get minimum passing grade
+        String grade = minPassingGradeField.getText();
+        KnightEDU.Grade g = KnightEDU.Grade.Letter.create(grade);
+
+        // Create prerequisites object
+        Prerequisites p = Prerequisites.Builder.course(cID).build();
+
+        // Get course to be edited
+        KnightEDU.Course c = db.getCourse(cID.toString());
+
+        // Update course and add to database
+        c.setPrerequisites(p);
+        db.updateCourse(c);
+
+        // Close window
+        this.setVisible(false);
+    }//GEN-LAST:event_okButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
