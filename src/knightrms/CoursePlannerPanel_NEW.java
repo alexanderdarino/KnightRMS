@@ -479,26 +479,24 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-//
-//    KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
-//
-//    KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS)courseQuery.specifyCourseID();
-//
-//    if (hasPrefix())
-//        courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
-//    if (hasNumber())
-//        courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
-//    if (hasSuffix())
-//        courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
-//
-//    courseQuery = courseIDQuery.build();
-//
-//    if (hasName())
-//        courseQuery = courseQuery.nameContains(nameField.getText());
-//
-//    // more code
-//
-//    Set<KnightEDU.Course> results = courseQuery.invoke();
+
+        KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
+
+        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS)courseQuery.specifyCourseID();
+
+        if (hasPrefix())
+            courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
+        if (hasNumber())
+            courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
+        if (hasSuffix())
+            courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
+
+        courseQuery = courseIDQuery.build();
+
+        if (hasName())
+            courseQuery = courseQuery.nameContains(nameField.getText());
+
+        Set<KnightEDU.Course> results = courseQuery.invoke();
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -511,23 +509,16 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 }//GEN-LAST:event_prefixFieldActionPerformed
 
     private void addPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPrereqsButtonActionPerformed
-        // TODO add your handling code here:
-        new PrereqEdit(null, true).setVisible(true);
+
+        // Course not selected
         if (prefixField == null || numberField == null || suffixField == null) {
             JOptionPane.showMessageDialog(null, "Valid Course ID required");
-
             return;
-        } else {
-            new PrereqEdit(null, true).setVisible(true);
         }
-             if (courseList.getSelectedValue() != null)
-            {
-                // open prerequisites window
-                Course c = (Course) courseList.getSelectedValue();
-
-            }
-            else
-                JOptionPane.showMessageDialog(null, "No course is selected.");
+        else
+        {
+            new PrereqEdit(null, true, this.db).setVisible(true);
+        }
     }//GEN-LAST:event_addPrereqsButtonActionPerformed
 
 
