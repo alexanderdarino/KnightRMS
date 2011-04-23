@@ -18,6 +18,7 @@ import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
 import KnightEDU.Grade;
 import KnightEDU.Grade.Type;
+import KnightEDU.Prerequisites;
 import java.awt.Frame;
 import java.util.Set;
 import java.util.logging.Level;
@@ -32,7 +33,8 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private KnightEDU.DBMS.SQL.DB db;
     private Frame parent;
-    
+    private Prerequisites.Builder prereqBuilder = null;
+
     public CoursePlannerPanel(Frame parent, KnightEDU.DBMS.SQL.DB db)
     {
         this();
@@ -571,12 +573,28 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         }
         else
         {
-           // new PrereqEdit(null, true, this.db).setVisible(true);
+            Prerequisites.Builder b;
+            //new PrereqEdit(null, true, this.db).setVisible(true);
+            b = PrereqEdit.showDialog();
+
+            if (b == null) return;
+
+            if (prereqBuilder == null)
+            {
+                prereqBuilder = b;
+                prereqTextArea.setText(prereqBuilder.build().toString());
+                return;
+            }
+
+            prereqBuilder = prereqBuilder.and(b);
+
+            prereqTextArea.setText(prereqBuilder.build().toString());
         }
     }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
 
     private void resetPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPrereqsButtonActionPerformed
-        // TODO add your handling code here:
+        prereqBuilder = null;
+        prereqTextArea.setText("");
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
 
