@@ -147,7 +147,7 @@ public class PrereqEdit extends javax.swing.JDialog {
         KnightEDU.Grade g = KnightEDU.Grade.Letter.create(grade);
 
         // Create prerequisites object
-        Prerequisites p = Prerequisites.Builder.course(cID).build();
+        Prerequisites.Builder b = Prerequisites.Builder.course(KnightEDU.CourseID.PNS.create(prefix, number, suffix));
 
         // Get course to be edited
         KnightEDU.Course c = db.getCourse(cID.toString());
@@ -155,6 +155,7 @@ public class PrereqEdit extends javax.swing.JDialog {
         // Update course and add to database
         c.setPrerequisites(p);
         db.updateCourse(c);
+
 
         // Close window
         this.setVisible(false);
