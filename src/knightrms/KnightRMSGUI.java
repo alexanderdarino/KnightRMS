@@ -51,19 +51,8 @@ public class KnightRMSGUI extends javax.swing.JFrame {
         setTitle("Knight Registrar Management System");
 
         coursePlannerTab.setBackground(new java.awt.Color(255, 255, 102));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(coursePlannerTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(coursePlannerTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
-        );
-
-        coursePlannerTab.add(new CoursePlannerPanel_NEW(this, db));
+        getContentPane().add(coursePlannerTab, java.awt.BorderLayout.CENTER);
+        coursePlannerTab.add(new KnightRMS.CoursePlannerPanel_NEW(this, db));
         coursePlannerTab.setTitleAt(0, "Course Planner");
 
         pack();
