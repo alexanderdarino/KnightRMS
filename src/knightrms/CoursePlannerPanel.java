@@ -18,11 +18,6 @@ import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
 import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
 import KnightEDU.Grade;
 import KnightEDU.Grade.Type;
-import KnightEDU.CourseID.PNS;
-import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
-import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
-import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
-import KnightEDU.Prerequisites;
 import java.awt.Frame;
 import java.util.Set;
 import java.util.logging.Level;
@@ -37,8 +32,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private KnightEDU.DBMS.SQL.DB db;
     private Frame parent;
-    private Prerequisites.Builder prereqBuilder = null;
-
     
     public CoursePlannerPanel(Frame parent, KnightEDU.DBMS.SQL.DB db)
     {
@@ -366,11 +359,8 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         prerequisitesPanel.add(prereqsButtonsPanel, java.awt.BorderLayout.SOUTH);
 
-        prereqTextAreaScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
         prereqTextArea.setColumns(20);
         prereqTextArea.setEditable(false);
-        prereqTextArea.setLineWrap(true);
         prereqTextArea.setRows(5);
         prereqTextAreaScrollPane.setViewportView(prereqTextArea);
 
@@ -532,6 +522,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 
+
         KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
         KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS) courseQuery.specifyCourseID();
         if (hasPrefix()) {
@@ -560,9 +551,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             courseQuery = courseQuery.nameContains(nameField.getText());
         }
         Set<KnightEDU.Course> results = courseQuery.invoke();
-
-        courseList.setListData(results.toArray());
-        courseList.getSelectedValue();
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -576,13 +564,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
 
-        String prefix = prefixField.getText();
-        String number = numberField.getText();
-        String suffix = suffixField.getText();
-
-        // Concatenate elements.
-        KnightEDU.CourseID cID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-
         // Course not selected
         if (prefixField == null || numberField == null || suffixField == null) {
             JOptionPane.showMessageDialog(null, "Valid Course ID required");
@@ -590,31 +571,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         }
         else
         {
-            Prerequisites.Builder b;
-            b = PrereqEdit.showDialog();
-
-            if (b == null) return;
-
-            if (prereqBuilder == null)
-            {
-                prereqBuilder = b;
-                prereqTextArea.setText(prereqBuilder.build().toString());
-                return;
-            }
-
-            prereqBuilder = prereqBuilder.and(b);
-
-            prereqTextArea.setText(prereqBuilder.build().toString());
-
-            Course c = db.getCourse(cID.toString());
-            c.setPrerequisites(prereqBuilder.build());
-            db.updateCourse(c);
+           // new PrereqEdit(null, true, this.db).setVisible(true);
         }
     }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
 
     private void resetPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPrereqsButtonActionPerformed
-        prereqBuilder = null;
-        prereqTextArea.setText("");
+        // TODO add your handling code here:
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
 
