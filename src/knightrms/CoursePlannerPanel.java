@@ -20,6 +20,8 @@ import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
 import KnightEDU.Grade;
 import KnightEDU.Grade.Type;
 import KnightEDU.Prerequisites;
+import KnightEDU.Term;
+import KnightEDU.YearParity;
 import java.awt.Frame;
 import java.util.Set;
 import java.util.logging.Level;
@@ -498,6 +500,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             // Update specified elements.
             c.setCredits(credits);
             c.setGradeType((Type) gradeTypeBox.getSelectedItem());
+
+            db.updateCourse(c);
+            updateCourseSchedules(courseID);
         }
 
         // If course is not in database, add new course.
@@ -531,8 +536,60 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             // Add the course to the database.
             //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
             db.addCourse(courseID.toString(), nameField.getText(), descriptionArea.getText(), credits, type);
+            if (occasionalBox.isSelected())
+            {
+                db.addCourseSchedule(courseID, YearParity.EVEN, Term.OCCASIONAL);
+                return;
+            }
+
+            updateCourseSchedules(courseID);
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void updateCourseSchedules(CourseID courseID)
+    {
+        if (occasionalBox.isSelected())
+        {
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.FALL);
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.FALL);
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.SPRING);
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.SPRING);
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.SUMMER);
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.SUMMER);
+            db.addCourseSchedule(courseID, YearParity.EVEN, Term.OCCASIONAL);
+            return;
+        }
+        else
+        {
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.OCCASIONAL);
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.OCCASIONAL);
+        }
+
+        if (fallOddBox.isSelected())
+             db.addCourseSchedule(courseID, YearParity.ODD, Term.FALL);
+        else
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.FALL);
+        if (fallEvenBox.isSelected())
+            db.addCourseSchedule(courseID, YearParity.EVEN, Term.FALL);
+        else
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.FALL);
+        if (springOddBox.isSelected())
+            db.addCourseSchedule(courseID, YearParity.ODD, Term.SPRING);
+        else
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.SPRING);
+        if (springEvenBox.isSelected())
+            db.addCourseSchedule(courseID, YearParity.EVEN, Term.SPRING);
+        else
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.SPRING);
+        if (summerOddBox.isSelected())
+            db.addCourseSchedule(courseID, YearParity.ODD, Term.SUMMER);
+        else
+            db.removeCourseSchedule(courseID, YearParity.ODD, Term.SUMMER);
+        if (summerEvenBox.isSelected())
+            db.addCourseSchedule(courseID, YearParity.EVEN, Term.SUMMER);
+        else
+            db.removeCourseSchedule(courseID, YearParity.EVEN, Term.SUMMER);
+    }
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         // Get courseID elements.
@@ -541,18 +598,10 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         String suffix = suffixField.getText();
         // Convert to courseID.
         KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-        
-        // Check to make sure there is a course selected.
-        if (courseList.getSelectedValue() != null)
-        {
-            db.removeCourse(courseID.toString());
-        }
+       
+        db.removeCourse(courseID.toString());
+        resetForm();
 
-        // If not course is selected, display error msg.
-        else
-        {
-            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please select a course to remove.");
-        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -673,6 +722,8 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             clearFields();
     }
 
+
+
     private void populateFields(Course course)
     {
 //        Course selected = null;
@@ -692,6 +743,39 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         //if (course.getPrerequisites().toString().equals("") != true)
         prereqTextArea.setText(course.getPrerequisites().toString());
+
+
+        fallOddBox.setSelected(false);
+        springOddBox.setSelected(false);
+        summerOddBox.setSelected(false);
+        fallEvenBox.setSelected(false);
+        springEvenBox.setSelected(false);
+        summerEvenBox.setSelected(false);
+        occasionalBox.setSelected(false);
+
+        for (Course.Schedule i : course.getSchedules())
+        {
+            if (i.getTerm() == Term.FALL && i.getYearParity() == YearParity.ODD)
+                fallOddBox.setSelected(true);
+
+            if (i.getTerm() == Term.SPRING && i.getYearParity() == YearParity.ODD)
+                springOddBox.setSelected(true);
+
+            if (i.getTerm() == Term.SUMMER && i.getYearParity() == YearParity.ODD)
+                summerOddBox.setSelected(true);                
+
+            if (i.getTerm() == Term.FALL && i.getYearParity() == YearParity.EVEN)
+                fallEvenBox.setSelected(true);
+
+            if (i.getTerm() == Term.SPRING && i.getYearParity() == YearParity.EVEN)
+                springEvenBox.setSelected(true);
+
+            if (i.getTerm() == Term.SUMMER && i.getYearParity() == YearParity.EVEN)
+                summerEvenBox.setSelected(true);
+            if (i.getTerm() == Term.OCCASIONAL)
+                occasionalBox.setSelected(true);
+        }
+
     }
 
     private void clearFields()
