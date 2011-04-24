@@ -66,11 +66,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseListScrollPane = new javax.swing.JScrollPane();
         courseList = new javax.swing.JList();
         searchButton = new javax.swing.JButton();
-        resetForm = new javax.swing.JButton();
         coursePlannerSeparator = new javax.swing.JSeparator();
         courseInfoPanel = new javax.swing.JPanel();
         courseInfoTopPanel = new javax.swing.JPanel();
         courseIDPanel = new javax.swing.JPanel();
+        clearButton = new javax.swing.JButton();
         prefixPanel = new javax.swing.JPanel();
         coursePrefixLab2 = new javax.swing.JLabel();
         prefixField = new javax.swing.JTextField();
@@ -142,15 +142,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 searchButtonActionPerformed(evt);
             }
         });
-        courseSearchPan.add(searchButton, java.awt.BorderLayout.SOUTH);
-
-        resetForm.setText("Reset Form");
-        resetForm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetFormActionPerformed(evt);
-            }
-        });
-        courseSearchPan.add(resetForm, java.awt.BorderLayout.NORTH);
+        courseSearchPan.add(searchButton, java.awt.BorderLayout.PAGE_START);
 
         courseListingPanel.add(courseSearchPan, java.awt.BorderLayout.CENTER);
 
@@ -165,6 +157,14 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseInfoTopPanel.setLayout(new javax.swing.BoxLayout(courseInfoTopPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         courseIDPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("CourseID"));
+
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+        courseIDPanel.add(clearButton);
 
         coursePrefixLab2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         coursePrefixLab2.setText("Prefix: ");
@@ -723,7 +723,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         queryCourseID();
     }//GEN-LAST:event_suffixFieldFocusLost
 
-    private void resetFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetFormActionPerformed
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         // Clear all information in the form.
         prefixField.setText("");
         numberField.setText("");
@@ -746,7 +746,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         summerEvenBox.setSelected(false);
         occasionalBox.setSelected(false);
 
-    }//GEN-LAST:event_resetFormActionPerformed
+    }//GEN-LAST:event_clearButtonActionPerformed
 
     private void queryCourseID()
     {
@@ -825,6 +825,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCoursePrereqsButton;
+    private javax.swing.JButton clearButton;
     private javax.swing.JPanel courseIDPanel;
     private javax.swing.JPanel courseInfoPanel;
     private javax.swing.JPanel courseInfoTopPanel;
@@ -867,7 +868,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel prereqsButtonsPanel;
     private javax.swing.JPanel prerequisitesPanel;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton resetForm;
     private javax.swing.JButton resetPrereqsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
