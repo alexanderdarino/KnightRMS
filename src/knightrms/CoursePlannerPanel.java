@@ -24,6 +24,7 @@ import java.awt.Frame;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -165,6 +166,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 prefixFieldActionPerformed(evt);
             }
         });
+        prefixField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                prefixFieldFocusLost(evt);
+            }
+        });
         prefixPanel.add(prefixField);
 
         courseIDPanel.add(prefixPanel);
@@ -176,6 +182,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         numberPanel.add(courseNumLab, new java.awt.GridBagConstraints());
 
         numberField.setColumns(4);
+        numberField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                numberFieldFocusLost(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -191,6 +202,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         suffixPanel.add(courseSuffixLab, new java.awt.GridBagConstraints());
 
         suffixField.setColumns(1);
+        suffixField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                suffixFieldFocusLost(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -219,7 +235,10 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         gradeTypeLabel.setText("Grade Type:");
         gradePrefPan.add(gradeTypeLabel);
 
-        gradeTypeBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Letter", "S / U" }));
+        for (Grade.Type i : Grade.Type.values())
+        {
+            gradeTypeBox.addItem(i);
+        }
         gradeTypeBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gradeTypeBoxActionPerformed(evt);
@@ -437,7 +456,10 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         // Check to make sure the CourseID fields are filled out.
         if(prefix.equals("") || number.equals(""))
+        {
             JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please specify a valid course ID.");
+            return;
+        }
 
         // Convert to courseID.
         KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
@@ -483,7 +505,10 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         {
             Credits credits = null;
             if(minCreditsField.getText().equals("") && maxCreditsField.getText().equals(""))
+            {
                 JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
+                return;
+            }
 
             else if(!minCreditsField.getText().equals("") && !maxCreditsField.getText().equals(""))
             {
@@ -562,7 +587,13 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         }
         Set<KnightEDU.Course> results = courseQuery.invoke();
 
-        courseList.setListData(results.toArray());
+        DefaultListModel searchResultsListData = new DefaultListModel();
+        for (KnightEDU.Course i : results)
+        {
+            searchResultsListData.addElement(i);
+        }
+        courseList.setModel(searchResultsListData);
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -612,29 +643,66 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         //
         if (courseList.isSelectionEmpty())
             return;
+
+        populateFields((Course) courseList.getSelectedValue());
         
-        Course selected = null;
-        selected = (Course) courseList.getSelectedValue();
+//         prereqTextArea.setText("None");
+    }//GEN-LAST:event_courseListValueChanged
+
+    private void prefixFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_prefixFieldFocusLost
+    {//GEN-HEADEREND:event_prefixFieldFocusLost
+        queryCourseID();
+    }//GEN-LAST:event_prefixFieldFocusLost
+
+    private void numberFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_numberFieldFocusLost
+    {//GEN-HEADEREND:event_numberFieldFocusLost
+        queryCourseID();
+    }//GEN-LAST:event_numberFieldFocusLost
+
+    private void suffixFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_suffixFieldFocusLost
+    {//GEN-HEADEREND:event_suffixFieldFocusLost
+        queryCourseID();
+    }//GEN-LAST:event_suffixFieldFocusLost
+
+    private void queryCourseID()
+    {
+        Course course = db.getCourse((prefixField.getText()+numberField.getText()+suffixField.getText()).toUpperCase());
+        if (course != null)
+            populateFields(course);
+        else
+            clearFields();
+    }
+
+    private void populateFields(Course course)
+    {
+//        Course selected = null;
+//        selected = (Course) courseList.getSelectedValue();
         
-        CourseID.PNS cID = (CourseID.PNS)selected.getId();
+        CourseID.PNS cID = (CourseID.PNS)course.getID();
         prefixField.setText(cID.getPrefix());
         numberField.setText(cID.getNumber());
         suffixField.setText(cID.getSuffix());
 
-        Credits c = selected.getCredits();
+        Credits c = course.getCredits();
         minCreditsField.setText(Integer.toString(c.getMinCredits()));
         maxCreditsField.setText(Integer.toString(c.getMaxCredits()));
 
-        nameField.setText(selected.getName());
-        descriptionArea.setText(selected.getDescription());
+        nameField.setText(course.getName());
+        descriptionArea.setText(course.getDescription());
 
-        if (selected.getPrerequisites().toString().equals("") != true)
-            prereqTextArea.setText(selected.getPrerequisites().toString());
-        
-        else
-            prereqTextArea.setText("None");
-    }//GEN-LAST:event_courseListValueChanged
+        //if (course.getPrerequisites().toString().equals("") != true)
+        prereqTextArea.setText(course.getPrerequisites().toString());
+    }
 
+    private void clearFields()
+    {
+        minCreditsField.setText("");
+        maxCreditsField.setText("");
+
+        nameField.setText("");
+        descriptionArea.setText("");
+        prereqTextArea.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCoursePrereqsButton;
@@ -715,34 +783,23 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasPrefix()
     {
-        if (prefixField.getText().equals(""))
-            return true;
-        else
-            return false;
+        return !prefixField.getText().isEmpty();
+
     }
 
     public boolean hasNumber()
     {
-        if (numberField.getText().equals(""))
-            return true;
-        else
-            return false;
+        return !numberField.getText().isEmpty();
     }
 
     public boolean hasSuffix()
     {
-        if (suffixField.getText().equals(""))
-            return true;
-        else
-            return false;
+        return !suffixField.getText().isEmpty();
     }
 
     public boolean hasName()
     {
-        if (nameField.getText().equals(""))
-            return true;
-        else
-            return false;
+        return !nameField.getText().isEmpty();
     }
 
     public boolean hasDescription()

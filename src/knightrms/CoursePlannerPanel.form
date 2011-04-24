@@ -134,6 +134,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="prefixFieldActionPerformed"/>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="prefixFieldFocusLost"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -157,6 +158,9 @@
                       <Properties>
                         <Property name="columns" type="int" value="4"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="numberFieldFocusLost"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="-1" gridY="-1" gridWidth="0" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -184,6 +188,9 @@
                       <Properties>
                         <Property name="columns" type="int" value="1"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="suffixFieldFocusLost"/>
+                      </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
                           <GridBagConstraints gridX="-1" gridY="-1" gridWidth="0" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="0" insetsBottom="0" insetsRight="0" anchor="10" weightX="1.0" weightY="0.0"/>
@@ -238,15 +245,15 @@
                     <Component class="javax.swing.JComboBox" name="gradeTypeBox">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="2">
-                            <StringItem index="0" value="Letter"/>
-                            <StringItem index="1" value="S / U"/>
-                          </StringArray>
+                          <StringArray count="0"/>
                         </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gradeTypeBoxActionPerformed"/>
                       </Events>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="for (Grade.Type i : Grade.Type.values())&#xa;{&#xa;    gradeTypeBox.addItem(i);&#xa;}"/>
+                      </AuxValues>
                     </Component>
                   </SubComponents>
                 </Container>
