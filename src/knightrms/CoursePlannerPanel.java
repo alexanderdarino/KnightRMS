@@ -12,20 +12,31 @@
 package KnightRMS;
 
 import KnightEDU.Course;
+import KnightEDU.CourseID;
+import KnightEDU.Credits;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidNumberException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidPrefixException;
+import KnightEDU.DBMS.Query.CourseID.PNS.InvalidSuffixException;
+import KnightEDU.Grade;
+import KnightEDU.Grade.Type;
+import KnightEDU.Prerequisites;
 import java.awt.Frame;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Evan
  */
-public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
+public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private KnightEDU.DBMS.SQL.DB db;
     private Frame parent;
-    
-    public CoursePlannerPanel_NEW(Frame parent, KnightEDU.DBMS.SQL.DB db)
+    private Prerequisites.Builder prereqBuilder = null;
+
+    public CoursePlannerPanel(Frame parent, KnightEDU.DBMS.SQL.DB db)
     {
         this();
         this.db = db;
@@ -33,7 +44,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     }
 
     /** Creates new form CoursePlannerPanel */
-    private CoursePlannerPanel_NEW() {
+    private CoursePlannerPanel() {
         initComponents();
     }
 
@@ -47,7 +58,12 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        coursePlannerLeftPan = new javax.swing.JPanel();
+        coursePlannerRightPan = new javax.swing.JPanel();
+        courseSearchPan = new javax.swing.JPanel();
+        courseListScrollPane = new javax.swing.JScrollPane();
+        courseList = new javax.swing.JList();
+        searchButton = new javax.swing.JButton();
+        coursePlannerSeparator = new javax.swing.JSeparator();
         courseInfoPanel = new javax.swing.JPanel();
         courseInfoTopPanel = new javax.swing.JPanel();
         courseIDPanel = new javax.swing.JPanel();
@@ -74,15 +90,6 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         maxCreditsPanel = new javax.swing.JPanel();
         creditsMaxLab = new javax.swing.JLabel();
         maxCreditsField = new javax.swing.JTextField();
-        descriptionAreaPanel = new javax.swing.JPanel();
-        descriptionAreaScrollPane = new javax.swing.JScrollPane();
-        descriptionArea = new javax.swing.JTextArea();
-        prerequisitesPanel = new javax.swing.JPanel();
-        prereqsListScrollPane = new javax.swing.JScrollPane();
-        prereqsList = new javax.swing.JList();
-        editPrereqsButton = new javax.swing.JButton();
-        coursePlannerSeparator = new javax.swing.JSeparator();
-        coursePlannerRightPan = new javax.swing.JPanel();
         semOfferedPan = new javax.swing.JPanel();
         occasionalBox = new javax.swing.JCheckBox();
         semOfferedSeparator = new javax.swing.JSeparator();
@@ -96,21 +103,50 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         summerLab = new javax.swing.JLabel();
         summerEvenBox = new javax.swing.JCheckBox();
         summerOddBox = new javax.swing.JCheckBox();
-        courseSearchPan = new javax.swing.JPanel();
-        courseListScrollPane = new javax.swing.JScrollPane();
-        courseList = new javax.swing.JList();
-        searchButton = new javax.swing.JButton();
-        courseOptionsPan = new javax.swing.JPanel();
+        prerequisitesPanel = new javax.swing.JPanel();
+        prereqsButtonsPanel = new javax.swing.JPanel();
+        addCoursePrereqsButton = new javax.swing.JButton();
+        resetPrereqsButton = new javax.swing.JButton();
+        prereqTextAreaScrollPane = new javax.swing.JScrollPane();
+        prereqTextArea = new javax.swing.JTextArea();
+        descriptionAreaPanel = new javax.swing.JPanel();
+        descriptionAreaScrollPane = new javax.swing.JScrollPane();
+        descriptionArea = new javax.swing.JTextArea();
         courseOptionsInsidePan = new javax.swing.JPanel();
         saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
-        coursePlannerLeftPan.setMinimumSize(coursePlannerLeftPan.getPreferredSize());
-        coursePlannerLeftPan.setLayout(new java.awt.BorderLayout());
+        coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
 
-        courseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        courseSearchPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course Listing"));
+        courseSearchPan.setLayout(new java.awt.BorderLayout());
+
+        courseList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                courseListValueChanged(evt);
+            }
+        });
+        courseListScrollPane.setViewportView(courseList);
+
+        courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
+
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+        courseSearchPan.add(searchButton, java.awt.BorderLayout.NORTH);
+
+        coursePlannerRightPan.add(courseSearchPan, java.awt.BorderLayout.CENTER);
+
+        add(coursePlannerRightPan);
+
+        coursePlannerSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        add(coursePlannerSeparator);
+
         courseInfoPanel.setMinimumSize(courseInfoPanel.getPreferredSize());
         courseInfoPanel.setLayout(new java.awt.BorderLayout());
 
@@ -222,50 +258,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         courseInfoTopPanel.add(gradeTypeAndCreditsPanel);
 
-        courseInfoPanel.add(courseInfoTopPanel, java.awt.BorderLayout.NORTH);
-
-        descriptionAreaPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Description"));
-        descriptionAreaPanel.setLayout(new java.awt.BorderLayout());
-
-        descriptionAreaScrollPane.setHorizontalScrollBar(null);
-        descriptionAreaScrollPane.setPreferredSize(new java.awt.Dimension(200, 96));
-
-        descriptionArea.setColumns(10000);
-        descriptionArea.setLineWrap(true);
-        descriptionArea.setRows(5);
-        descriptionAreaScrollPane.setViewportView(descriptionArea);
-
-        descriptionAreaPanel.add(descriptionAreaScrollPane, java.awt.BorderLayout.CENTER);
-
-        courseInfoPanel.add(descriptionAreaPanel, java.awt.BorderLayout.CENTER);
-
-        coursePlannerLeftPan.add(courseInfoPanel, java.awt.BorderLayout.WEST);
-
-        prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prerequisites", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        prerequisitesPanel.setLayout(new java.awt.BorderLayout());
-
-        prereqsListScrollPane.setViewportView(prereqsList);
-
-        prerequisitesPanel.add(prereqsListScrollPane, java.awt.BorderLayout.CENTER);
-
-        editPrereqsButton.setText("jButton1");
-        editPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editPrereqsButtonActionPerformed(evt);
-            }
-        });
-        prerequisitesPanel.add(editPrereqsButton, java.awt.BorderLayout.SOUTH);
-
-        coursePlannerLeftPan.add(prerequisitesPanel, java.awt.BorderLayout.CENTER);
-
-        add(coursePlannerLeftPan);
-
-        coursePlannerSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        add(coursePlannerSeparator);
-
-        coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
-
-        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Semesters Offered", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Semesters Offered"));
         semOfferedPan.setLayout(new javax.swing.BoxLayout(semOfferedPan, javax.swing.BoxLayout.LINE_AXIS));
 
         occasionalBox.setText("Occasional");
@@ -349,24 +342,56 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
         semOfferedPan.add(semOfferedSemPan);
 
-        coursePlannerRightPan.add(semOfferedPan, java.awt.BorderLayout.NORTH);
+        courseInfoTopPanel.add(semOfferedPan);
 
-        courseSearchPan.setLayout(new java.awt.BorderLayout());
+        prerequisitesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Prerequisites"));
+        prerequisitesPanel.setLayout(new java.awt.BorderLayout());
 
-        courseListScrollPane.setViewportView(courseList);
+        prereqsButtonsPanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
-
-        searchButton.setText("Search");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
+        addCoursePrereqsButton.setText("Add Course Prerequisites");
+        addCoursePrereqsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
+                addCoursePrereqsButtonActionPerformed(evt);
             }
         });
-        courseSearchPan.add(searchButton, java.awt.BorderLayout.SOUTH);
+        prereqsButtonsPanel.add(addCoursePrereqsButton);
 
-        courseOptionsPan.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        courseOptionsPan.setLayout(new java.awt.GridLayout(1, 0));
+        resetPrereqsButton.setText("Reset Prerequisites");
+        resetPrereqsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetPrereqsButtonActionPerformed(evt);
+            }
+        });
+        prereqsButtonsPanel.add(resetPrereqsButton);
+
+        prerequisitesPanel.add(prereqsButtonsPanel, java.awt.BorderLayout.SOUTH);
+
+        prereqTextArea.setColumns(20);
+        prereqTextArea.setEditable(false);
+        prereqTextArea.setRows(5);
+        prereqTextAreaScrollPane.setViewportView(prereqTextArea);
+
+        prerequisitesPanel.add(prereqTextAreaScrollPane, java.awt.BorderLayout.PAGE_START);
+
+        courseInfoTopPanel.add(prerequisitesPanel);
+
+        courseInfoPanel.add(courseInfoTopPanel, java.awt.BorderLayout.NORTH);
+
+        descriptionAreaPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Description"));
+        descriptionAreaPanel.setLayout(new java.awt.BorderLayout());
+
+        descriptionAreaScrollPane.setHorizontalScrollBar(null);
+        descriptionAreaScrollPane.setPreferredSize(new java.awt.Dimension(200, 96));
+
+        descriptionArea.setColumns(10000);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setRows(5);
+        descriptionAreaScrollPane.setViewportView(descriptionArea);
+
+        descriptionAreaPanel.add(descriptionAreaScrollPane, java.awt.BorderLayout.CENTER);
+
+        courseInfoPanel.add(descriptionAreaPanel, java.awt.BorderLayout.CENTER);
 
         courseOptionsInsidePan.setLayout(new java.awt.GridLayout(1, 2));
 
@@ -386,13 +411,9 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         });
         courseOptionsInsidePan.add(removeButton);
 
-        courseOptionsPan.add(courseOptionsInsidePan);
+        courseInfoPanel.add(courseOptionsInsidePan, java.awt.BorderLayout.PAGE_END);
 
-        courseSearchPan.add(courseOptionsPan, java.awt.BorderLayout.SOUTH);
-
-        coursePlannerRightPan.add(courseSearchPan, java.awt.BorderLayout.CENTER);
-
-        add(coursePlannerRightPan);
+        add(courseInfoPanel);
     }// </editor-fold>//GEN-END:initComponents
 
     private void occasionalBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_occasionalBoxActionPerformed
@@ -408,100 +429,140 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 }//GEN-LAST:event_springEvenBoxActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-//                    // If course is in database, update course.
-//            if (db.containsCourse(courseID))
-//            {
-//                KnightEDU.Course c = db.getCourse(courseID);
-//                Credits credits = null;
-//                c.setName(name);
-//                c.setDescription(description);
-//                if(minCreditsField == null && maxCreditsField == null)
-//                    JOptionPane.showMessageDialog(KnightRMSGUI.this, "Please enter min and/or max credits.");
-//                else if(minCreditsField != null && maxCreditsField != null)
-//                {
-//                    int min = Integer.parseInt(minCreditsField.getText());
-//                    int max = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(min, max);
-//                }
-//                else if(minCreditsField == null)
-//                {
-//                    int cMax = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(cMax);
-//                }
-//                else
-//                {
-//                    int cMin = Integer.parseInt(minCreditsField.getText());
-//                    credits = Credits.createCredits(cMin);
-//                }
-//                c.setCredits(credits);
-//                c.setGradeType((Type)gradePrefBox.getSelectedItem());
-//            }
-//
-//            // Need a pop-up window here - if the user makes a typo in the course name,
-//            // we don't want it to add a new course. Popup window should say something like,
-//            // "Course not found in database. Add course to database?" and then have buttons
-//            // for yes or no.
-//
-//            // If course is not in database, add new course.
-//            else
-//            {
-//                Credits credits = null;
-//                if(minCreditsField == null && maxCreditsField == null)
-//                    JOptionPane.showMessageDialog(KnightRMSGUI.this, "Please enter min and/or max credits.");
-//                else if(minCreditsField != null && maxCreditsField != null)
-//                {
-//                    int min = Integer.parseInt(minCreditsField.getText());
-//                    int max = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(min, max);
-//                }
-//                else if(minCreditsField == null){
-//                    int c = Integer.parseInt(maxCreditsField.getText());
-//                    credits = Credits.createCredits(c);
-//                }
-//                else {
-//                    int c = Integer.parseInt(minCreditsField.getText());
-//                    credits = Credits.createCredits(c);
-//                }
-//
-//
-//                Grade.Type type = (Type)gradePrefBox.getSelectedItem();
-//                //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
-//                db.addCourse(courseID, name, description, credits, type);
-//            }
+
+        // Get courseID elements.
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+
+        // Check to make sure the CourseID fields are filled out.
+        if(prefix.equals("") || number.equals(""))
+            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please specify a valid course ID.");
+
+        // Convert to courseID.
+        KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+
+        // If course is in database, update course.
+        if (db.containsCourse(courseID.toString()))
+        {
+            KnightEDU.Course c = db.getCourse(courseID.toString());
+            Credits credits = null;
+
+            // Update elements.
+            c.setName(nameField.getText());
+            c.setDescription(descriptionArea.getText());
+
+            // At least one of the credit fields must contain data.
+            if(minCreditsField.getText().equals("") && maxCreditsField.getText().equals(""))
+                JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
+
+            else if(!minCreditsField.getText().equals("") && !maxCreditsField.getText().equals(""))
+            {
+                int min = Integer.parseInt(minCreditsField.getText());
+                int max = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(min, max);
+            }
+            else if(minCreditsField.getText().equals(""))
+            {
+                int cMax = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(cMax);
+            }
+            else
+            {
+                int cMin = Integer.parseInt(minCreditsField.getText());
+                credits = Credits.createCredits(cMin);
+            }
+
+            // Update specified elements.
+            c.setCredits(credits);
+            c.setGradeType((Type) gradeTypeBox.getSelectedItem());
+        }
+
+        // If course is not in database, add new course.
+        else
+        {
+            Credits credits = null;
+            if(minCreditsField.getText().equals("") && maxCreditsField.getText().equals(""))
+                JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
+
+            else if(!minCreditsField.getText().equals("") && !maxCreditsField.getText().equals(""))
+            {
+                int min = Integer.parseInt(minCreditsField.getText());
+                int max = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(min, max);
+            }
+            else if(minCreditsField.getText().equals("")){
+                int c = Integer.parseInt(maxCreditsField.getText());
+                credits = Credits.createCredits(c);
+            }
+            else {
+                int c = Integer.parseInt(minCreditsField.getText());
+                credits = Credits.createCredits(c);
+            }
+
+
+            Grade.Type type = (Type)gradeTypeBox.getSelectedItem();
+
+            // Add the course to the database.
+            //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
+            db.addCourse(courseID.toString(), nameField.getText(), descriptionArea.getText(), credits, type);
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-//            if (courseList.getSelectedValue() != null)
-//            {
-//                db.removeCourse(courseID);
-//            }
-//            else
-//            {
-//                JOptionPane.showMessageDialog(KnightRMSGUI.this, "Please enter search criteria.");
-//            }
+        // Get courseID elements.
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+        // Convert to courseID.
+        KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
+        
+        // Check to make sure there is a course selected.
+        if (courseList.getSelectedValue() != null)
+        {
+            db.removeCourse(courseID.toString());
+        }
+
+        // If not course is selected, display error msg.
+        else
+        {
+            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please select a course to remove.");
+        }
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-//
-//    KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
-//
-//    KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS)courseQuery.specifyCourseID();
-//
-//    if (hasPrefix())
-//        courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
-//    if (hasNumber())
-//        courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
-//    if (hasSuffix())
-//        courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
-//
-//    courseQuery = courseIDQuery.build();
-//
-//    if (hasName())
-//        courseQuery = courseQuery.nameContains(nameField.getText());
-//
-//    // more code
-//
-//    Set<KnightEDU.Course> results = courseQuery.invoke();
+
+
+        KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
+        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS) courseQuery.specifyCourseID();
+        if (hasPrefix()) {
+            try {
+                courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
+            } catch (InvalidPrefixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (hasNumber()) {
+            try {
+                courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
+            } catch (InvalidNumberException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (hasSuffix()) {
+            try {
+                courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
+            } catch (InvalidSuffixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        courseQuery = courseIDQuery.build();
+        if (hasName()) {
+            courseQuery = courseQuery.nameContains(nameField.getText());
+        }
+        Set<KnightEDU.Course> results = courseQuery.invoke();
+
+        courseList.setListData(results.toArray());
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -513,28 +574,70 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
         // TODO add your handling code here:
 }//GEN-LAST:event_prefixFieldActionPerformed
 
-    private void editPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editPrereqsButtonActionPerformed
-        // TODO add your handling code here:
-        new PrereqEdit(null, true).setVisible(true);
-        if (prefixField == null || numberField == null || suffixField == null) {
+    private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
+
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+
+        if (prefix.equals("") || number.equals("")) {
             JOptionPane.showMessageDialog(null, "Valid Course ID required");
-
             return;
-        } else {
-            new PrereqEdit(null, true).setVisible(true);
         }
-             if (courseList.getSelectedValue() != null)
-            {
-                // open prerequisites window
-                Course c = (Course) courseList.getSelectedValue();
+        else
+        {
+            Prerequisites.Builder b;
+            b = PrereqEdit.showDialog();
 
+            if (b == null) return;
+
+            if (prereqBuilder == null)
+            {
+                prereqBuilder = b;
+                prereqTextArea.setText(prereqBuilder.build().toString());
+                return;
             }
-            else
-                JOptionPane.showMessageDialog(null, "No course is selected.");
-    }//GEN-LAST:event_editPrereqsButtonActionPerformed
+
+            prereqBuilder = prereqBuilder.and(b);
+
+            prereqTextArea.setText(prereqBuilder.build().toString());
+        }
+    }//GEN-LAST:event_addCoursePrereqsButtonActionPerformed
+
+    private void resetPrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPrereqsButtonActionPerformed
+        prereqBuilder = null;
+        prereqTextArea.setText("");
+    }//GEN-LAST:event_resetPrereqsButtonActionPerformed
+
+    private void courseListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_courseListValueChanged
+        //
+        if (courseList.isSelectionEmpty())
+            return;
+        
+        Course selected = null;
+        selected = (Course) courseList.getSelectedValue();
+        
+        CourseID.PNS cID = (CourseID.PNS)selected.getId();
+        prefixField.setText(cID.getPrefix());
+        numberField.setText(cID.getNumber());
+        suffixField.setText(cID.getSuffix());
+
+        Credits c = selected.getCredits();
+        minCreditsField.setText(Integer.toString(c.getMinCredits()));
+        maxCreditsField.setText(Integer.toString(c.getMaxCredits()));
+
+        nameField.setText(selected.getName());
+        descriptionArea.setText(selected.getDescription());
+
+        if (selected.getPrerequisites().toString().equals("") != true)
+            prereqTextArea.setText(selected.getPrerequisites().toString());
+        
+        else
+            prereqTextArea.setText("None");
+    }//GEN-LAST:event_courseListValueChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCoursePrereqsButton;
     private javax.swing.JPanel courseIDPanel;
     private javax.swing.JPanel courseInfoPanel;
     private javax.swing.JPanel courseInfoTopPanel;
@@ -543,8 +646,6 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JPanel courseNamePanel;
     private javax.swing.JLabel courseNumLab;
     private javax.swing.JPanel courseOptionsInsidePan;
-    private javax.swing.JPanel courseOptionsPan;
-    private javax.swing.JPanel coursePlannerLeftPan;
     private javax.swing.JPanel coursePlannerRightPan;
     private javax.swing.JSeparator coursePlannerSeparator;
     private javax.swing.JLabel coursePrefixLab2;
@@ -556,7 +657,6 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JTextArea descriptionArea;
     private javax.swing.JPanel descriptionAreaPanel;
     private javax.swing.JScrollPane descriptionAreaScrollPane;
-    private javax.swing.JButton editPrereqsButton;
     private javax.swing.JCheckBox fallEvenBox;
     private javax.swing.JLabel fallLab;
     private javax.swing.JCheckBox fallOddBox;
@@ -575,10 +675,12 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     private javax.swing.JCheckBox occasionalBox;
     private javax.swing.JTextField prefixField;
     private javax.swing.JPanel prefixPanel;
-    private javax.swing.JList prereqsList;
-    private javax.swing.JScrollPane prereqsListScrollPane;
+    private javax.swing.JTextArea prereqTextArea;
+    private javax.swing.JScrollPane prereqTextAreaScrollPane;
+    private javax.swing.JPanel prereqsButtonsPanel;
     private javax.swing.JPanel prerequisitesPanel;
     private javax.swing.JButton removeButton;
+    private javax.swing.JButton resetPrereqsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JPanel semOfferedPan;
@@ -595,9 +697,9 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 
-        public boolean hasCompleteCourseID()
+    public boolean hasCompleteCourseID()
     {
-        if (prefixField.getText() != null && numberField.getText() != null && suffixField.getText() != null)
+        if (!prefixField.getText().equals("") && !numberField.getText().equals(""))
             return true;
         else
             return false;
@@ -605,7 +707,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasPartialCourseID()
     {
-        if (nameField.getText() != null || numberField.getText() != null || suffixField.getText() != null)
+        if (nameField.getText().equals("") || numberField.getText().equals("") || suffixField.getText().equals(""))
             return true;
         else
             return false;
@@ -613,7 +715,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasPrefix()
     {
-        if (prefixField.getText() != null)
+        if (prefixField.getText().equals(""))
             return true;
         else
             return false;
@@ -621,7 +723,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasNumber()
     {
-        if (numberField.getText() != null)
+        if (numberField.getText().equals(""))
             return true;
         else
             return false;
@@ -629,7 +731,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasSuffix()
     {
-        if (suffixField.getText() != null)
+        if (suffixField.getText().equals(""))
             return true;
         else
             return false;
@@ -637,7 +739,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasName()
     {
-        if (nameField.getText() != null)
+        if (nameField.getText().equals(""))
             return true;
         else
             return false;
@@ -645,7 +747,7 @@ public class CoursePlannerPanel_NEW extends javax.swing.JPanel {
 
     public boolean hasDescription()
     {
-        if (descriptionArea.getText() != null)
+        if (descriptionArea.getText().equals(""))
             return true;
         else
             return false;

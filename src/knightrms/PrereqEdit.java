@@ -11,6 +11,7 @@
 
 package KnightRMS;
 
+import KnightEDU.Prerequisites;
 import java.awt.Frame;
 
 /**
@@ -19,10 +20,24 @@ import java.awt.Frame;
  */
 public class PrereqEdit extends javax.swing.JDialog {
 
+    private KnightEDU.Prerequisites.Builder builder = null;
+
     /** Creates new form PrereqEdit */
-    public PrereqEdit(Frame parent, boolean modal) {
+    public static KnightEDU.Prerequisites.Builder showDialog(){
+        PrereqEdit dialog = new PrereqEdit(null, true);
+        return dialog.getPrerequisitesBuilder();
+    }
+
+    private PrereqEdit(Frame parent, boolean modal)
+    {
         super(parent, modal);
         initComponents();
+        setVisible(true);
+    }
+
+    private KnightEDU.Prerequisites.Builder getPrerequisitesBuilder()
+    {
+        return builder;
     }
 
     /** This method is called from within the constructor to
@@ -95,6 +110,11 @@ public class PrereqEdit extends javax.swing.JDialog {
         prereqButtonPan.setLayout(new java.awt.GridLayout(1, 0));
 
         okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
         prereqButtonPan.add(okButton);
 
         cancelButton.setText("Cancel");
@@ -116,8 +136,29 @@ public class PrereqEdit extends javax.swing.JDialog {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        
+        // Get course ID elements
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+        String suffix = suffixField.getText();
+
+        // Get minimum passing grade
+        String grade = minPassingGradeField.getText();
+
+        if (minPassingGradeField.getText().equals(""))
+        {
+            builder = Prerequisites.Builder.course(KnightEDU.CourseID.PNS.create(prefix, number, suffix));
+            dispose();
+            return;
+        }
+        builder = Prerequisites.Builder.course(KnightEDU.CourseID.PNS.create(prefix, number, suffix),
+                KnightEDU.Grade.Letter.create(grade));
+        this.dispose();
+    }//GEN-LAST:event_okButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
