@@ -436,7 +436,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         String suffix = suffixField.getText();
 
         // Check to make sure the CourseID fields are filled out.
-        if(prefix == null || number == null || suffix == null)
+        if(prefix.equals("") || number.equals(""))
             JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please specify a valid course ID.");
 
         // Convert to courseID.
@@ -453,15 +453,16 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             c.setDescription(descriptionArea.getText());
 
             // At least one of the credit fields must contain data.
-            if(minCreditsField == null && maxCreditsField == null)
+            if(minCreditsField.getText().equals("") && maxCreditsField.getText().equals(""))
                 JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
-            else if(minCreditsField != null && maxCreditsField != null)
+
+            else if(!minCreditsField.getText().equals("") && !maxCreditsField.getText().equals(""))
             {
                 int min = Integer.parseInt(minCreditsField.getText());
                 int max = Integer.parseInt(maxCreditsField.getText());
                 credits = Credits.createCredits(min, max);
             }
-            else if(minCreditsField == null)
+            else if(minCreditsField.getText().equals(""))
             {
                 int cMax = Integer.parseInt(maxCreditsField.getText());
                 credits = Credits.createCredits(cMax);
@@ -481,15 +482,16 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         else
         {
             Credits credits = null;
-            if(minCreditsField == null && maxCreditsField == null)
+            if(minCreditsField.getText().equals("") && maxCreditsField.getText().equals(""))
                 JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Please enter min and/or max credits.");
-            else if(minCreditsField != null && maxCreditsField != null)
+
+            else if(!minCreditsField.getText().equals("") && !maxCreditsField.getText().equals(""))
             {
                 int min = Integer.parseInt(minCreditsField.getText());
                 int max = Integer.parseInt(maxCreditsField.getText());
                 credits = Credits.createCredits(min, max);
             }
-            else if(minCreditsField == null){
+            else if(minCreditsField.getText().equals("")){
                 int c = Integer.parseInt(maxCreditsField.getText());
                 credits = Credits.createCredits(c);
             }
@@ -559,6 +561,8 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             courseQuery = courseQuery.nameContains(nameField.getText());
         }
         Set<KnightEDU.Course> results = courseQuery.invoke();
+
+        courseList.setListData(results.toArray());
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
@@ -572,15 +576,16 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
 
-        // Course not selected
-        if (prefixField == null || numberField == null || suffixField == null) {
+        String prefix = prefixField.getText();
+        String number = numberField.getText();
+
+        if (prefix.equals("") || number.equals("")) {
             JOptionPane.showMessageDialog(null, "Valid Course ID required");
             return;
         }
         else
         {
             Prerequisites.Builder b;
-            //new PrereqEdit(null, true, this.db).setVisible(true);
             b = PrereqEdit.showDialog();
 
             if (b == null) return;
@@ -604,6 +609,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
     private void courseListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_courseListValueChanged
+        //
         if (courseList.isSelectionEmpty())
             return;
         
@@ -691,9 +697,9 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 
-        public boolean hasCompleteCourseID()
+    public boolean hasCompleteCourseID()
     {
-        if (prefixField.getText() != null && numberField.getText() != null && suffixField.getText() != null)
+        if (!prefixField.getText().equals("") && !numberField.getText().equals(""))
             return true;
         else
             return false;
@@ -701,7 +707,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasPartialCourseID()
     {
-        if (nameField.getText() != null || numberField.getText() != null || suffixField.getText() != null)
+        if (nameField.getText().equals("") || numberField.getText().equals("") || suffixField.getText().equals(""))
             return true;
         else
             return false;
@@ -709,7 +715,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasPrefix()
     {
-        if (prefixField.getText() != null)
+        if (prefixField.getText().equals(""))
             return true;
         else
             return false;
@@ -717,7 +723,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasNumber()
     {
-        if (numberField.getText() != null)
+        if (numberField.getText().equals(""))
             return true;
         else
             return false;
@@ -725,7 +731,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasSuffix()
     {
-        if (suffixField.getText() != null)
+        if (suffixField.getText().equals(""))
             return true;
         else
             return false;
@@ -733,7 +739,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasName()
     {
-        if (nameField.getText() != null)
+        if (nameField.getText().equals(""))
             return true;
         else
             return false;
@@ -741,7 +747,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     public boolean hasDescription()
     {
-        if (descriptionArea.getText() != null)
+        if (descriptionArea.getText().equals(""))
             return true;
         else
             return false;
