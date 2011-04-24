@@ -61,11 +61,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        coursePlannerRightPan = new javax.swing.JPanel();
+        courseListingPanel = new javax.swing.JPanel();
         courseSearchPan = new javax.swing.JPanel();
         courseListScrollPane = new javax.swing.JScrollPane();
         courseList = new javax.swing.JList();
         searchButton = new javax.swing.JButton();
+        resetForm = new javax.swing.JButton();
         coursePlannerSeparator = new javax.swing.JSeparator();
         courseInfoPanel = new javax.swing.JPanel();
         courseInfoTopPanel = new javax.swing.JPanel();
@@ -121,7 +122,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
-        coursePlannerRightPan.setLayout(new java.awt.BorderLayout());
+        courseListingPanel.setLayout(new java.awt.BorderLayout());
 
         courseSearchPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Course Listing"));
         courseSearchPan.setLayout(new java.awt.BorderLayout());
@@ -141,11 +142,19 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 searchButtonActionPerformed(evt);
             }
         });
-        courseSearchPan.add(searchButton, java.awt.BorderLayout.NORTH);
+        courseSearchPan.add(searchButton, java.awt.BorderLayout.SOUTH);
 
-        coursePlannerRightPan.add(courseSearchPan, java.awt.BorderLayout.CENTER);
+        resetForm.setText("Reset Form");
+        resetForm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetFormActionPerformed(evt);
+            }
+        });
+        courseSearchPan.add(resetForm, java.awt.BorderLayout.NORTH);
 
-        add(coursePlannerRightPan);
+        courseListingPanel.add(courseSearchPan, java.awt.BorderLayout.CENTER);
+
+        add(courseListingPanel);
 
         coursePlannerSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
         add(coursePlannerSeparator);
@@ -174,6 +183,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
             }
         });
         prefixPanel.add(prefixField);
+        prefixField.setDocument(new FixTextFieldLength(3));
 
         courseIDPanel.add(prefixPanel);
 
@@ -503,6 +513,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
             db.updateCourse(c);
             updateCourseSchedules(courseID);
+            JOptionPane.showConfirmDialog(CoursePlannerPanel.this, "Course Successfully Saved.");
         }
 
         // If course is not in database, add new course.
@@ -600,7 +611,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
        
         db.removeCourse(courseID.toString());
-        resetForm();
 
     }//GEN-LAST:event_removeButtonActionPerformed
 
@@ -651,7 +661,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
     private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_prefixFieldActionPerformed
     {//GEN-HEADEREND:event_prefixFieldActionPerformed
-        // TODO add your handling code here:
+        
 }//GEN-LAST:event_prefixFieldActionPerformed
 
     private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
@@ -660,7 +670,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         String number = numberField.getText();
 
         if (prefix.equals("") || number.equals("")) {
-            JOptionPane.showMessageDialog(null, "Valid Course ID required");
+            JOptionPane.showMessageDialog(null, "Valid Course ID required.");
             return;
         }
         else
@@ -712,6 +722,31 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     {//GEN-HEADEREND:event_suffixFieldFocusLost
         queryCourseID();
     }//GEN-LAST:event_suffixFieldFocusLost
+
+    private void resetFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetFormActionPerformed
+        // Clear all information in the form.
+        prefixField.setText("");
+        numberField.setText("");
+        suffixField.setText("");
+
+        minCreditsField.setText("");
+        maxCreditsField.setText("");
+
+        nameField.setText("");
+        descriptionArea.setText("");
+        prereqTextArea.setText("");
+
+        courseList = null;
+
+        fallOddBox.setSelected(false);
+        springOddBox.setSelected(false);
+        summerOddBox.setSelected(false);
+        fallEvenBox.setSelected(false);
+        springEvenBox.setSelected(false);
+        summerEvenBox.setSelected(false);
+        occasionalBox.setSelected(false);
+
+    }//GEN-LAST:event_resetFormActionPerformed
 
     private void queryCourseID()
     {
@@ -795,10 +830,10 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel courseInfoTopPanel;
     private javax.swing.JList courseList;
     private javax.swing.JScrollPane courseListScrollPane;
+    private javax.swing.JPanel courseListingPanel;
     private javax.swing.JPanel courseNamePanel;
     private javax.swing.JLabel courseNumLab;
     private javax.swing.JPanel courseOptionsInsidePan;
-    private javax.swing.JPanel coursePlannerRightPan;
     private javax.swing.JSeparator coursePlannerSeparator;
     private javax.swing.JLabel coursePrefixLab2;
     private javax.swing.JPanel courseSearchPan;
@@ -832,6 +867,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel prereqsButtonsPanel;
     private javax.swing.JPanel prerequisitesPanel;
     private javax.swing.JButton removeButton;
+    private javax.swing.JButton resetForm;
     private javax.swing.JButton resetPrereqsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
