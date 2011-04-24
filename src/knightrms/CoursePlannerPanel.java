@@ -604,28 +604,29 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_resetPrereqsButtonActionPerformed
 
     private void courseListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_courseListValueChanged
-        if (courseList.isSelectionEmpty()){
+        if (courseList.isSelectionEmpty())
             return;
-        }
+        
         Course selected = null;
-        try{
-            selected = (Course) courseList.getSelectedValue();
-        } catch(CourseNotFoundException e){
-            System.err.print("Something went very wrong.");
-            return;
-        }
+        selected = (Course) courseList.getSelectedValue();
+        
+        CourseID.PNS cID = (CourseID.PNS)selected.getId();
+        prefixField.setText(cID.getPrefix());
+        numberField.setText(cID.getNumber());
+        suffixField.setText(cID.getSuffix());
 
-        CourseID cID = selected.getId();
+        Credits c = selected.getCredits();
+        minCreditsField.setText(Integer.toString(c.getMinCredits()));
+        maxCreditsField.setText(Integer.toString(c.getMaxCredits()));
 
         nameField.setText(selected.getName());
         descriptionArea.setText(selected.getDescription());
 
-        if (selected.getPrereqsString().equals("") != true){
-            prqsDisp.setText(selected.getPrereqsString());
-        } else {
-            prqsDisp.setText("None.");
-        }
-        semsDisp.setText(selected.getSemestersString());
+        if (selected.getPrerequisites().toString().equals("") != true)
+            prereqTextArea.setText(selected.getPrerequisites().toString());
+        
+        else
+            prereqTextArea.setText("None");
     }//GEN-LAST:event_courseListValueChanged
 
 
