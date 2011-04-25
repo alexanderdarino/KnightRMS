@@ -21,14 +21,27 @@ import javax.swing.*;
  */
 public class SectionFinderGUI extends javax.swing.JDialog {
 
-    private static KnightEDU.DBMS.SQL.DB db;
+    private KnightEDU.DBMS.SQL.Query.Section sectionQuery;
+    private KnightEDU.Section r_val = null;
 
-    public static JDialog window;
-    /** Creates new form SectionFinderGUI */
-    public SectionFinderGUI(java.awt.Frame parent, boolean modal, DB database) {
+
+    public static KnightEDU.Section showDialog(java.awt.Frame parent, boolean modal, KnightEDU.DBMS.SQL.Query.Section sectionQuery)
+    {
+        SectionFinderGUI dialog = new SectionFinderGUI(parent, modal, sectionQuery);
+        dialog.setVisible(true);
+        return dialog.getSection();
+        
+    }
+
+    private KnightEDU.Section getSection()
+    {
+        return r_val;
+    }
+
+    public SectionFinderGUI(java.awt.Frame parent, boolean modal, KnightEDU.DBMS.SQL.Query.Section sectionQuery) {
         super(parent, modal);
         initComponents();
-        db = database;
+        this.sectionQuery = sectionQuery;
     }
 
     /** This method is called from within the constructor to
@@ -39,442 +52,314 @@ public class SectionFinderGUI extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        sectionDaysCB = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        sectionStartTimeTF = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        sectionEndTimeTF = new javax.swing.JTextField();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        sectionBuildingTF = new javax.swing.JTextField();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        sectionRoomTF = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
-        sectionCancelButton = new javax.swing.JButton();
-        jPanel9 = new javax.swing.JPanel();
-        sectionSearch = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        DaysComboBox = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        startTimeField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        endTimeField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        buildingField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        roomField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        selectedSectionIDField = new javax.swing.JTextField();
+        selectedSectionIDLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        OKButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         sectionList = new javax.swing.JList();
-        sectionOkButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(450, 325));
+        setMinimumSize(getPreferredSize());
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.PAGE_AXIS));
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        DaysComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "U", "M", "T", "W", "R", "F", "S", "MW", "MWF", "TR", "TBA" }));
+        DaysComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                DaysComboBoxItemStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(DaysComboBox, gridBagConstraints);
 
         jLabel2.setText("Days:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel2, gridBagConstraints);
 
-        sectionDaysCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "U", "M", "T", "W", "R", "F", "S", "MW", "MWF", "TR", "TBA" }));
-        sectionDaysCB.addActionListener(new java.awt.event.ActionListener() {
+        startTimeField.setColumns(4);
+        startTimeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionDaysCBActionPerformed(evt);
+                startTimeFieldActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(110, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(sectionDaysCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sectionDaysCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
+        startTimeField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                startTimeFieldFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(startTimeField, gridBagConstraints);
 
         jLabel3.setText("(Military) Start Time:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel3, gridBagConstraints);
 
-        sectionStartTimeTF.setText("Start Time");
-        sectionStartTimeTF.addActionListener(new java.awt.event.ActionListener() {
+        endTimeField.setColumns(4);
+        endTimeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionStartTimeTFActionPerformed(evt);
+                endTimeFieldActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sectionStartTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(sectionStartTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel3))
-        );
+        endTimeField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                endTimeFieldFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(endTimeField, gridBagConstraints);
 
         jLabel4.setText("(Military) End Time:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel4, gridBagConstraints);
 
-        sectionEndTimeTF.setText("End Time");
-        sectionEndTimeTF.addActionListener(new java.awt.event.ActionListener() {
+        buildingField.setColumns(10);
+        buildingField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionEndTimeTFActionPerformed(evt);
+                buildingFieldActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(sectionEndTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel4)
-                .addComponent(sectionEndTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        buildingField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                buildingFieldFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(buildingField, gridBagConstraints);
 
         jLabel5.setText("Building:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel5, gridBagConstraints);
 
-        sectionBuildingTF.setText("Building");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                .addComponent(sectionBuildingTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5)
-                .addComponent(sectionBuildingTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        roomField.setColumns(10);
+        roomField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomFieldActionPerformed(evt);
+            }
+        });
+        roomField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                roomFieldFocusLost(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(roomField, gridBagConstraints);
 
         jLabel6.setText("Room:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(jLabel6, gridBagConstraints);
 
-        sectionRoomTF.setText("Room");
-        sectionRoomTF.addActionListener(new java.awt.event.ActionListener() {
+        selectedSectionIDField.setColumns(25);
+        selectedSectionIDField.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel1.add(selectedSectionIDField, gridBagConstraints);
+
+        selectedSectionIDLabel.setText("Section:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        jPanel1.add(selectedSectionIDLabel, gridBagConstraints);
+
+        jPanel4.add(jPanel1);
+
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+
+        OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionRoomTFActionPerformed(evt);
+                OKButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(OKButton);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addComponent(sectionRoomTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel6)
-                .addComponent(sectionRoomTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 93, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 34, Short.MAX_VALUE)
-        );
-
-        sectionCancelButton.setText("Cancel");
-        sectionCancelButton.addActionListener(new java.awt.event.ActionListener() {
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionCancelButtonActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
+        jPanel2.add(cancelButton);
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 73, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
-        );
+        jPanel4.add(jPanel2);
 
-        sectionSearch.setText("Search");
-        sectionSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionSearchActionPerformed(evt);
+        getContentPane().add(jPanel4);
+
+        sectionList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                sectionListValueChanged(evt);
             }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
-        jLabel1.setText("Section Finder");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-        );
-
-        sectionList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(sectionList);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
-        );
-
-        sectionOkButton.setText("OK");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(sectionSearch)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(sectionOkButton)
-                                        .addGap(2, 2, 2)
-                                        .addComponent(sectionCancelButton)))))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sectionSearch)
-                    .addComponent(sectionCancelButton)
-                    .addComponent(sectionOkButton))
-                .addGap(62, 62, 62)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sectionEndTimeTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionEndTimeTFActionPerformed
-        // TODO add your handling code here:
+    private void endTimeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endTimeFieldActionPerformed
+        updateSearchListing();
       
 
         
-}//GEN-LAST:event_sectionEndTimeTFActionPerformed
+}//GEN-LAST:event_endTimeFieldActionPerformed
 
-    private void sectionRoomTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionRoomTFActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_sectionRoomTFActionPerformed
+    private void roomFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomFieldActionPerformed
+        updateSearchListing();
+}//GEN-LAST:event_roomFieldActionPerformed
 
-    private void sectionSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionSearchActionPerformed
-        // TODO add your handling code here:
-        
-        //If the Start Time length does not eqaul 4 or
-        //If the End Time length does not equal 4 or
-        //If the Room Number length is greater than 4
-        //Display Invalid Input message
-        int EndTime = 0;
-        int StartTime = 0;
-        if(sectionStartTimeTF.getText().length() != 4 || sectionEndTimeTF.getText().length() != 4)
-        {
-            JOptionPane.showMessageDialog(window,"Start Time and End Time must be 4 characters long.");
-            return;
-        }
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        r_val = null;
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void startTimeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTimeFieldActionPerformed
+        updateSearchListing();
+    }//GEN-LAST:event_startTimeFieldActionPerformed
 
+    private void OKButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_OKButtonActionPerformed
+    {//GEN-HEADEREND:event_OKButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_OKButtonActionPerformed
 
-        //If the Start Time and the End Time are the same
-        //Display Invalid Input message
-        if(sectionStartTimeTF.getText().equals(sectionEndTimeTF.getText()))
-        {
-            JOptionPane.showMessageDialog(window,"Start Time cannot equal End Time");
-            return;
-        }
-
-        if(sectionRoomTF.getText().length() > 4)
-        {
-            JOptionPane.showMessageDialog(window,"Room Number must be 4 characters or less.");
-            return;
-        }
-
-        try
-        {
-                //Gets the information from the text boxes
-                EndTime = new Integer(sectionEndTimeTF.getText());
-                StartTime = new Integer (sectionStartTimeTF.getText());
-        }
-        //If the input is not an Integer
-        //Display Invalid Input message
-        catch(NumberFormatException nfe)
-        {
-                JOptionPane.showMessageDialog(window,"Start and End time must be Numeric.");
-        }
-
-        //Checks to make sure that End Time is less than 2400
-        if(EndTime >= 2400){
-            JOptionPane.showMessageDialog(window,"End time must be less than 2400");
-            return;
-        }
-        //Checks to make sure that Start time is less than 2400
-        if(StartTime >= 2400){
-            JOptionPane.showMessageDialog(window,"Start time must be less than 2400");
-            return;
-        }
-        if(StartTime >= EndTime)
-        {
-            JOptionPane.showMessageDialog(window,"Start Time must be less then End Time.");
-            return;
-        }
+    private void updateSearchListing()
+    {
         // Waiting on Alex to implement in database
         //KnightEDU.DMBS.Query.Section sectionQuery = db.querySection().
         //Search code to populate the section list in the Section finder dialog box
-        KnightEDU.DBMS.Query.Section sectionQuery = db.querySection();
 
-            sectionQuery = db.querySection().startTime(StartTime);
-
-            sectionQuery = db.querySection().endTime(EndTime);
+        sectionQuery.reset();
+        if (!startTimeField.getText().isEmpty())
+            sectionQuery = sectionQuery.startTime(Integer.parseInt(startTimeField.getText()));
+        if (!endTimeField.getText().isEmpty())
+            sectionQuery = sectionQuery.endTime(Integer.parseInt(endTimeField.getText()));
 
         if(hasBuilding()){
-            sectionQuery = db.querySection().specifyBuilding(sectionBuildingTF.getText());
+            sectionQuery = sectionQuery.specifyBuilding(buildingField.getText());
         }
         if(hasRoom()){
-            sectionQuery = db.querySection().specifyRoom(sectionRoomTF.getText());
+            sectionQuery = sectionQuery.specifyRoom(roomField.getText());
         }
 
-        sectionQuery = db.querySection().specifyDays(Days.valueOf(sectionDaysCB.getName()));
+        if (!((String)DaysComboBox.getSelectedItem()).isEmpty())
+            sectionQuery = sectionQuery.specifyDays(Days.valueOf((String)DaysComboBox.getSelectedItem()));
 
-        Set<Section> qSection = db.querySection().invoke();
+        Set<Section> results = sectionQuery.invoke();
 
-        sectionList.setListData(qSection.toArray());
-}//GEN-LAST:event_sectionSearchActionPerformed
+        //sectionList.setListData(qSection.toArray());
 
-    private void sectionCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionCancelButtonActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_sectionCancelButtonActionPerformed
-
-    private void sectionStartTimeTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionStartTimeTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sectionStartTimeTFActionPerformed
-
-    private void sectionDaysCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionDaysCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sectionDaysCBActionPerformed
-    private Section sectionOkButtonActionPerformed(java.awt.event.ActionEvent evt){
-        Section s = (Section) sectionList.getSelectedValue();
-                return s;
+        DefaultListModel searchResultsListData = new DefaultListModel();
+        for (KnightEDU.Section i : results)
+        {
+            searchResultsListData.addElement(i);
+        }
+        sectionList.setModel(searchResultsListData);
     }
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                SectionFinderGUI dialog = new SectionFinderGUI(new javax.swing.JFrame(), true, db);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+
+    private void sectionListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_sectionListValueChanged
+    {//GEN-HEADEREND:event_sectionListValueChanged
+        if (sectionList.getSelectedValue() == null) return;
+        r_val = (KnightEDU.Section)sectionList.getSelectedValue();
+        selectedSectionIDField.setText(r_val.toString());
+    }//GEN-LAST:event_sectionListValueChanged
+
+    private void roomFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_roomFieldFocusLost
+    {//GEN-HEADEREND:event_roomFieldFocusLost
+        updateSearchListing();
+    }//GEN-LAST:event_roomFieldFocusLost
+
+    private void buildingFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_buildingFieldFocusLost
+    {//GEN-HEADEREND:event_buildingFieldFocusLost
+       updateSearchListing();
+    }//GEN-LAST:event_buildingFieldFocusLost
+
+    private void buildingFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_buildingFieldActionPerformed
+    {//GEN-HEADEREND:event_buildingFieldActionPerformed
+        updateSearchListing();
+    }//GEN-LAST:event_buildingFieldActionPerformed
+
+    private void endTimeFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_endTimeFieldFocusLost
+    {//GEN-HEADEREND:event_endTimeFieldFocusLost
+        updateSearchListing();
+    }//GEN-LAST:event_endTimeFieldFocusLost
+
+    private void startTimeFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_startTimeFieldFocusLost
+    {//GEN-HEADEREND:event_startTimeFieldFocusLost
+       updateSearchListing();
+    }//GEN-LAST:event_startTimeFieldFocusLost
+
+    private void DaysComboBoxItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_DaysComboBoxItemStateChanged
+    {//GEN-HEADEREND:event_DaysComboBoxItemStateChanged
+        updateSearchListing();
+    }//GEN-LAST:event_DaysComboBoxItemStateChanged
+
+
+
     private boolean hasBuilding(){
-        if(sectionBuildingTF.getText() != null)
-            return true;
-        return false;
+        return !buildingField.getText().isEmpty();
     }
     private boolean hasRoom(){
-        if(sectionRoomTF.getText() != null)
-            return true;
-        return false;
+        return !roomField.getText().isEmpty();
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox DaysComboBox;
+    private javax.swing.JButton OKButton;
+    private javax.swing.JTextField buildingField;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JTextField endTimeField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -482,23 +367,13 @@ public class SectionFinderGUI extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField sectionBuildingTF;
-    private javax.swing.JButton sectionCancelButton;
-    private javax.swing.JComboBox sectionDaysCB;
-    private javax.swing.JTextField sectionEndTimeTF;
+    private javax.swing.JTextField roomField;
     private javax.swing.JList sectionList;
-    private javax.swing.JButton sectionOkButton;
-    private javax.swing.JTextField sectionRoomTF;
-    private javax.swing.JButton sectionSearch;
-    private javax.swing.JTextField sectionStartTimeTF;
+    private javax.swing.JTextField selectedSectionIDField;
+    private javax.swing.JLabel selectedSectionIDLabel;
+    private javax.swing.JTextField startTimeField;
     // End of variables declaration//GEN-END:variables
 
 }

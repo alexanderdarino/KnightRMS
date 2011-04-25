@@ -4,30 +4,36 @@
  */
 
 /*
- * SectionScheduler.java
+ * SectionSchedulerPanel.java
  *
- * Created on Apr 23, 2011, 10:04:14 PM
+ * Created on Apr 24, 2011, 2:02:15 AM
  */
 
 package knightrms;
 
-
-import KnightEDU.*;
-import KnightEDU.Location.BR;
+import KnightEDU.Days;
+import KnightEDU.Section;
+import java.awt.Frame;
 import java.util.Set;
-import javax.swing.*;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author CORY
+ * @author Alexander Darino
  */
-public class SectionScheduler extends javax.swing.JPanel {
+public class SectionSchedulerPanel extends javax.swing.JPanel {
 
-    private static KnightEDU.DBMS.SQL.DB db;
+    private KnightEDU.DBMS.SQL.DB db;
 
-    public static JDialog window;
+    /** Creates new form SectionSchedulerPanel */
 
-    /** Creates new form SectionScheduler */
-    public SectionScheduler() {
+    public SectionSchedulerPanel(Frame frame, KnightEDU.DBMS.SQL.DB db)
+    {
+        this();
+        this.db = db;
+    }
+
+    public SectionSchedulerPanel() {
         initComponents();
     }
 
@@ -40,31 +46,97 @@ public class SectionScheduler extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel9 = new javax.swing.JPanel();
+        removeButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        searchButton = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        roomField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         sectionDaysCB = new javax.swing.JComboBox();
+        addButton = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        sectionStartTimeTF = new javax.swing.JTextField();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        sectionEndTimeTF = new javax.swing.JTextField();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        sectionBuildingTF = new javax.swing.JTextField();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        sectionRoomTF = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
-        RemoveButton = new javax.swing.JButton();
-        jPanel9 = new javax.swing.JPanel();
-        sectionSearch = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        startTimeField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         sectionList = new javax.swing.JList();
-        addButton = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        buildingField = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        endTimeField = new javax.swing.JTextField();
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 73, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 23, Short.MAX_VALUE)
+        );
+
+        removeButton.setText("Remove");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 24));
+        jLabel1.setText("Section Scheduler");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+        );
+
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Room:");
+
+        roomField.setText("\n");
+        roomField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomFieldActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
+                .addComponent(roomField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel6)
+                .addComponent(roomField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         jLabel2.setText("Days:");
 
@@ -80,7 +152,7 @@ public class SectionScheduler extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(94, Short.MAX_VALUE)
+                .addContainerGap(280, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(sectionDaysCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -96,108 +168,7 @@ public class SectionScheduler extends javax.swing.JPanel {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jLabel3.setText("(Military) Start Time:");
-
-        sectionStartTimeTF.setText("Start Time");
-        sectionStartTimeTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionStartTimeTFActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sectionStartTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(sectionStartTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel3))
-        );
-
-        jLabel4.setText("(Military) End Time:");
-
-        sectionEndTimeTF.setText("End Time");
-        sectionEndTimeTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionEndTimeTFActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(sectionEndTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel4)
-                .addComponent(sectionEndTimeTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel5.setText("Building:");
-
-        sectionBuildingTF.setText("Building");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
-                .addComponent(sectionBuildingTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel5)
-                .addComponent(sectionBuildingTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jLabel6.setText("Room:");
-
-        sectionRoomTF.setText("Room");
-        sectionRoomTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionRoomTFActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
-                .addComponent(sectionRoomTF, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel6)
-                .addComponent(sectionRoomTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        addButton.setText("Add");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -210,43 +181,31 @@ public class SectionScheduler extends javax.swing.JPanel {
             .addGap(0, 34, Short.MAX_VALUE)
         );
 
-        RemoveButton.setText("Remove");
-        RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setText("(Military) Start Time:");
+
+        startTimeField.setText("\n");
+        startTimeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RemoveButtonActionPerformed(evt);
+                startTimeFieldActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 73, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
-        );
-
-        sectionSearch.setText("Search");
-        sectionSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sectionSearchActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
-        jLabel1.setText("Section Scheduler");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(startTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3))
         );
 
         sectionList.setModel(new javax.swing.AbstractListModel() {
@@ -267,12 +226,60 @@ public class SectionScheduler extends javax.swing.JPanel {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
         );
 
-        addButton.setText("Add");
+        jLabel5.setText("Building:");
+
+        buildingField.setText("\n");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
+                .addComponent(buildingField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel5)
+                .addComponent(buildingField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jLabel4.setText("(Military) End Time:");
+
+        endTimeField.setText("\n");
+        endTimeField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endTimeFieldActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                .addComponent(endTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel4)
+                .addComponent(endTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 626, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,11 +297,11 @@ public class SectionScheduler extends javax.swing.JPanel {
                                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(sectionSearch)
+                                        .addComponent(searchButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(addButton)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(RemoveButton)))))
+                                        .addComponent(removeButton)))))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,6 +309,7 @@ public class SectionScheduler extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 371, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,8 +330,8 @@ public class SectionScheduler extends javax.swing.JPanel {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sectionSearch)
-                    .addComponent(RemoveButton)
+                    .addComponent(searchButton)
+                    .addComponent(removeButton)
                     .addComponent(addButton))
                 .addGap(62, 62, 62)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,51 +339,14 @@ public class SectionScheduler extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sectionDaysCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionDaysCBActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_sectionDaysCBActionPerformed
-
-    private void sectionStartTimeTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionStartTimeTFActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_sectionStartTimeTFActionPerformed
-
-    private void sectionEndTimeTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionEndTimeTFActionPerformed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_sectionEndTimeTFActionPerformed
-
-    private void sectionRoomTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionRoomTFActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_sectionRoomTFActionPerformed
-    private Section addButtonActionPerformed(java.awt.event.ActionEvent evt){
-        if(!dataCheck()){
-            return null;
-        }
-        int startTime = Integer.parseInt(sectionStartTimeTF.getText());
-        int endTime = Integer.parseInt(sectionEndTimeTF.getText());
-
-        Location loc = new BR (sectionBuildingTF.getText(),sectionRoomTF.getText());
-        return db.addSection(Days.valueOf(sectionDaysCB.getName()), loc,startTime, endTime);
-    }
-    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_removeButtonActionPerformed
+    {//GEN-HEADEREND:event_removeButtonActionPerformed
         // TODO add your handling code here:
         Section selectedSection = (Section) sectionList.getSelectedValue();
 
-        db.removeSection(selectedSection.getSectionID());
+        db.removeSection(String.valueOf(selectedSection.getSectionID()));
+    }//GEN-LAST:event_removeButtonActionPerformed
 
-}//GEN-LAST:event_RemoveButtonActionPerformed
-
-     private boolean hasBuilding(){
-        if(sectionBuildingTF.getText() != null)
-            return true;
-        return false;
-    }
-    private boolean hasRoom(){
-        if(sectionRoomTF.getText() != null)
-            return true;
-        return false;
-    }
     private boolean dataCheck(){
 
                 //If the Start Time length does not eqaul 4 or
@@ -384,8 +355,8 @@ public class SectionScheduler extends javax.swing.JPanel {
         //Display Invalid Input message
         int EndTime = 0;
         int StartTime = 0;
-        if(sectionStartTimeTF.getText().length() != 4 || sectionEndTimeTF.getText().length() != 4) {
-            JOptionPane.showMessageDialog(window,"Start Time and End Time must be 4 characters long.");
+        if(startTimeField.getText().length() != 4 || endTimeField.getText().length() != 4) {
+            JOptionPane.showMessageDialog(null,"Start Time and End Time must be 4 characters long.");
             return false;
         }
 
@@ -393,47 +364,33 @@ public class SectionScheduler extends javax.swing.JPanel {
 
         //If the Start Time and the End Time are the same
         //Display Invalid Input message
-        if(sectionStartTimeTF.getText().equals(sectionEndTimeTF.getText())) {
-            JOptionPane.showMessageDialog(window,"Start Time cannot equal End Time");
-            return false;
-        }
-
-        if(sectionRoomTF.getText().length() > 4) {
-            JOptionPane.showMessageDialog(window,"Room Number must be 4 characters or less.");
+        if(startTimeField.getText().equals(endTimeField.getText())) {
+            JOptionPane.showMessageDialog(null,"Start Time cannot equal End Time");
             return false;
         }
 
         try {
             //Gets the information from the text boxes
-            EndTime = new Integer(sectionEndTimeTF.getText());
-            StartTime = new Integer(sectionStartTimeTF.getText());
+            EndTime = new Integer(endTimeField.getText());
+            StartTime = new Integer(startTimeField.getText());
         }
         //If the input is not an Integer
         //Display Invalid Input message
         catch(NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(window,"Start and End time must be Numeric.");
-        }
-
-        //Checks to make sure that End Time is less than 2400
-        if(EndTime >= 2400){
-            JOptionPane.showMessageDialog(window,"End time must be less than 2400");
-            return false;
-        }
-        //Checks to make sure that Start time is less than 2400
-        if(StartTime >= 2400){
-            JOptionPane.showMessageDialog(window,"Start time must be less than 2400");
-            return false;
+            JOptionPane.showMessageDialog(null,"Start and End time must be Numeric.");
         }
         if(StartTime >= EndTime) {
-            JOptionPane.showMessageDialog(window,"Start Time must be less then End Time.");
+            JOptionPane.showMessageDialog(null,"Start Time must be less then End Time.");
             return false;
         }
         return true;
     }
-    private void sectionSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectionSearchActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_searchButtonActionPerformed
+    {//GEN-HEADEREND:event_searchButtonActionPerformed
         // TODO add your handling code here:
 
-       
+
         //Display Invalid Input message
 
         if(!dataCheck())
@@ -445,16 +402,18 @@ public class SectionScheduler extends javax.swing.JPanel {
 
 
 
-        sectionQuery = db.querySection().startTime(Integer.parseInt(sectionStartTimeTF.getText()));
+        sectionQuery = db.querySection().startTime(Integer.parseInt(startTimeField.getText()));
 
 
-        sectionQuery = db.querySection().endTime(Integer.parseInt(sectionEndTimeTF.getText()));
+        sectionQuery = db.querySection().endTime(Integer.parseInt(endTimeField.getText()));
 
-        if(hasBuilding()){
-            sectionQuery = db.querySection().specifyBuilding(sectionBuildingTF.getText());
+        if(hasBuilding())
+        {
+            sectionQuery = db.querySection().specifyBuilding(buildingField.getText());
         }
-        if(hasRoom()){
-            sectionQuery = db.querySection().specifyRoom(sectionRoomTF.getText());
+        if(hasRoom())
+        {
+            sectionQuery = db.querySection().specifyRoom(roomField.getText());
         }
 
         sectionQuery = db.querySection().specifyDays(Days.valueOf(sectionDaysCB.getName()));
@@ -462,12 +421,45 @@ public class SectionScheduler extends javax.swing.JPanel {
         Set<Section> qSection = db.querySection().invoke();
 
         sectionList.setListData(qSection.toArray());
-}//GEN-LAST:event_sectionSearchActionPerformed
+}//GEN-LAST:event_searchButtonActionPerformed
+
+     private boolean hasBuilding(){
+        if(buildingField.getText() != null)
+            return true;
+        return false;
+    }
+    private boolean hasRoom(){
+        if(roomField.getText() != null)
+            return true;
+        return false;
+    }
+
+    private void roomFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_roomFieldActionPerformed
+    {//GEN-HEADEREND:event_roomFieldActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_roomFieldActionPerformed
+
+    private void sectionDaysCBActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sectionDaysCBActionPerformed
+    {//GEN-HEADEREND:event_sectionDaysCBActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_sectionDaysCBActionPerformed
+
+    private void startTimeFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_startTimeFieldActionPerformed
+    {//GEN-HEADEREND:event_startTimeFieldActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_startTimeFieldActionPerformed
+
+    private void endTimeFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_endTimeFieldActionPerformed
+    {//GEN-HEADEREND:event_endTimeFieldActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_endTimeFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton RemoveButton;
     private javax.swing.JButton addButton;
+    private javax.swing.JTextField buildingField;
+    private javax.swing.JTextField endTimeField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -484,13 +476,12 @@ public class SectionScheduler extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField sectionBuildingTF;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JTextField roomField;
+    private javax.swing.JButton searchButton;
     private javax.swing.JComboBox sectionDaysCB;
-    private javax.swing.JTextField sectionEndTimeTF;
     private javax.swing.JList sectionList;
-    private javax.swing.JTextField sectionRoomTF;
-    private javax.swing.JButton sectionSearch;
-    private javax.swing.JTextField sectionStartTimeTF;
+    private javax.swing.JTextField startTimeField;
     // End of variables declaration//GEN-END:variables
 
 }

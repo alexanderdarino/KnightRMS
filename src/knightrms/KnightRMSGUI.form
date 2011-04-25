@@ -4,6 +4,9 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Knight Registrar Management System"/>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+      <Connection component="Form" name="getPreferredSize" type="method"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -30,7 +33,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="coursePlannerTab.add(new KnightRMS.CoursePlannerPanel(this, db));&#xa;coursePlannerTab.setTitleAt(0, &quot;Course Planner&quot;);"/>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="coursePlannerTab.addTab(&quot;Course Planner&quot;, new KnightRMS.CoursePlannerPanel(this, db));&#xa;//coursePlannerTab.addTab(&quot;Section Scheduler&quot;, new knightrms.SectionSchedulerPanel(this, db));&#xa;coursePlannerTab.addTab(&quot;Course Offering Manager&quot;, new KnightRMS.CourseOfferingManagerPanel(db));"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">

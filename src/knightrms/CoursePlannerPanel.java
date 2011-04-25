@@ -65,7 +65,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseSearchPan = new javax.swing.JPanel();
         courseListScrollPane = new javax.swing.JScrollPane();
         courseList = new javax.swing.JList();
-        searchButton = new javax.swing.JButton();
         coursePlannerSeparator = new javax.swing.JSeparator();
         courseInfoPanel = new javax.swing.JPanel();
         courseInfoTopPanel = new javax.swing.JPanel();
@@ -120,6 +119,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         saveButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
 
+        setMinimumSize(getPreferredSize());
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
 
         courseListingPanel.setLayout(new java.awt.BorderLayout());
@@ -136,14 +136,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
         courseSearchPan.add(courseListScrollPane, java.awt.BorderLayout.CENTER);
 
-        searchButton.setText("Search");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-        courseSearchPan.add(searchButton, java.awt.BorderLayout.PAGE_START);
-
         courseListingPanel.add(courseSearchPan, java.awt.BorderLayout.CENTER);
 
         add(courseListingPanel);
@@ -154,9 +146,11 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseInfoPanel.setMinimumSize(courseInfoPanel.getPreferredSize());
         courseInfoPanel.setLayout(new java.awt.BorderLayout());
 
+        courseInfoTopPanel.setMinimumSize(courseInfoTopPanel.getPreferredSize());
         courseInfoTopPanel.setLayout(new javax.swing.BoxLayout(courseInfoTopPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
         courseIDPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("CourseID"));
+        courseIDPanel.setMinimumSize(courseIDPanel.getPreferredSize());
 
         clearButton.setText("Clear");
         clearButton.addActionListener(new java.awt.event.ActionListener() {
@@ -171,6 +165,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         prefixPanel.add(coursePrefixLab2);
 
         prefixField.setColumns(3);
+        prefixField.setDocument(new FixTextFieldLength(3));
         prefixField.setMinimumSize(prefixField.getPreferredSize());
         prefixField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +189,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         numberPanel.add(courseNumLab, new java.awt.GridBagConstraints());
 
         numberField.setColumns(4);
+        numberField.setDocument(new FixTextFieldLength(4));
+        numberField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberFieldActionPerformed(evt);
+            }
+        });
         numberField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 numberFieldFocusLost(evt);
@@ -214,6 +215,12 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         suffixPanel.add(courseSuffixLab, new java.awt.GridBagConstraints());
 
         suffixField.setColumns(1);
+        suffixField.setDocument(new FixTextFieldLength(1));
+        suffixField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                suffixFieldActionPerformed(evt);
+            }
+        });
         suffixField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 suffixFieldFocusLost(evt);
@@ -232,12 +239,15 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseNamePanel.setLayout(new java.awt.GridBagLayout());
 
         nameLabel.setText("Name:");
-        courseNamePanel.add(nameLabel, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        courseNamePanel.add(nameLabel, gridBagConstraints);
 
         nameField.setColumns(20);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         courseNamePanel.add(nameField, gridBagConstraints);
 
         courseInfoTopPanel.add(courseNamePanel);
@@ -261,6 +271,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         gradeTypeAndCreditsPanel.add(gradePrefPan);
 
         creditsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Credits"));
+        creditsPanel.setMinimumSize(creditsPanel.getPreferredSize());
         creditsPanel.setLayout(new javax.swing.BoxLayout(creditsPanel, javax.swing.BoxLayout.LINE_AXIS));
 
         minCreditsPanel.setMinimumSize(minCreditsPanel.getPreferredSize());
@@ -290,7 +301,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         courseInfoTopPanel.add(gradeTypeAndCreditsPanel);
 
         semOfferedPan.setBorder(javax.swing.BorderFactory.createTitledBorder("Semesters Offered"));
-        semOfferedPan.setLayout(new javax.swing.BoxLayout(semOfferedPan, javax.swing.BoxLayout.LINE_AXIS));
+        semOfferedPan.setLayout(new java.awt.GridBagLayout());
 
         occasionalBox.setText("Occasional");
         occasionalBox.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
@@ -299,10 +310,14 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
                 occasionalBoxActionPerformed(evt);
             }
         });
-        semOfferedPan.add(occasionalBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        semOfferedPan.add(occasionalBox, gridBagConstraints);
 
         semOfferedSeparator.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        semOfferedPan.add(semOfferedSeparator);
+        semOfferedPan.add(semOfferedSeparator, new java.awt.GridBagConstraints());
 
         semOfferedSemPan.setLayout(new java.awt.GridBagLayout());
 
@@ -371,7 +386,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         semOfferedSemPan.add(summerOddBox, gridBagConstraints);
 
-        semOfferedPan.add(semOfferedSemPan);
+        semOfferedPan.add(semOfferedSemPan, new java.awt.GridBagConstraints());
 
         courseInfoTopPanel.add(semOfferedPan);
 
@@ -513,7 +528,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
             db.updateCourse(c);
             updateCourseSchedules(courseID);
-            JOptionPane.showConfirmDialog(CoursePlannerPanel.this, "Course Successfully Saved.");
+            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Course Successfully Updated.");
         }
 
         // If course is not in database, add new course.
@@ -546,6 +561,7 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 
             // Add the course to the database.
             //db.addCourse(String courseID, String name, String description, Credits credits, Grade.Type gradeType);
+            JOptionPane.showMessageDialog(CoursePlannerPanel.this, "Course Successfully Added.");
             db.addCourse(courseID.toString(), nameField.getText(), descriptionArea.getText(), credits, type);
             if (occasionalBox.isSelected())
             {
@@ -609,60 +625,19 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         String suffix = suffixField.getText();
         // Convert to courseID.
         KnightEDU.CourseID.PNS courseID = KnightEDU.CourseID.PNS.create(prefix, number, suffix);
-       
+
+        if (db.containsCourse(courseID.toString()))
+            JOptionPane.showMessageDialog(null, "Course Successfully Removed");
+        else
+            JOptionPane.showMessageDialog(null, "Course Does Not Exist");
         db.removeCourse(courseID.toString());
 
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
-
-        KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
-        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS) courseQuery.specifyCourseID();
-        if (hasPrefix()) {
-            try {
-                courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
-            } catch (InvalidPrefixException ex) {
-                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (hasNumber()) {
-            try {
-                courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
-            } catch (InvalidNumberException ex) {
-                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (hasSuffix()) {
-            try {
-                courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
-            } catch (InvalidSuffixException ex) {
-                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        courseQuery = courseIDQuery.build();
-        if (hasName()) {
-            courseQuery = courseQuery.nameContains(nameField.getText());
-        }
-        Set<KnightEDU.Course> results = courseQuery.invoke();
-
-        DefaultListModel searchResultsListData = new DefaultListModel();
-        for (KnightEDU.Course i : results)
-        {
-            searchResultsListData.addElement(i);
-        }
-        courseList.setModel(searchResultsListData);
-
-    }//GEN-LAST:event_searchButtonActionPerformed
 
     private void gradeTypeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeTypeBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gradeTypeBoxActionPerformed
-
-    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_prefixFieldActionPerformed
-    {//GEN-HEADEREND:event_prefixFieldActionPerformed
-        
-}//GEN-LAST:event_prefixFieldActionPerformed
 
     private void addCoursePrereqsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCoursePrereqsButtonActionPerformed
 
@@ -708,6 +683,77 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
 //         prereqTextArea.setText("None");
     }//GEN-LAST:event_courseListValueChanged
 
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        // Clear all information in the form.
+        prefixField.setText("");
+        numberField.setText("");
+        suffixField.setText("");
+
+        minCreditsField.setText("");
+        maxCreditsField.setText("");
+
+        nameField.setText("");
+        descriptionArea.setText("");
+        prereqTextArea.setText("");
+
+
+        fallOddBox.setSelected(false);
+        springOddBox.setSelected(false);
+        summerOddBox.setSelected(false);
+        fallEvenBox.setSelected(false);
+        springEvenBox.setSelected(false);
+        summerEvenBox.setSelected(false);
+        occasionalBox.setSelected(false);
+
+        courseList.setModel(new DefaultListModel());
+
+    }//GEN-LAST:event_clearButtonActionPerformed
+
+    public void refreshForm()
+    {
+        updateCourseListing();
+        queryCourseID();
+    }
+
+    private void updateCourseListing()
+    {
+        KnightEDU.DBMS.Query.Course courseQuery = db.queryCourse();
+        KnightEDU.DBMS.Query.CourseID.PNS courseIDQuery = (KnightEDU.DBMS.Query.CourseID.PNS) courseQuery.specifyCourseID();
+        if (hasPrefix()) {
+            try {
+                courseIDQuery = courseIDQuery.containsPrefix(prefixField.getText());
+            } catch (InvalidPrefixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (hasNumber()) {
+            try {
+                courseIDQuery = courseIDQuery.containsNumberEqualTo(numberField.getText());
+            } catch (InvalidNumberException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (hasSuffix()) {
+            try {
+                courseIDQuery = courseIDQuery.containsSuffix(suffixField.getText());
+            } catch (InvalidSuffixException ex) {
+                Logger.getLogger(CoursePlannerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        courseQuery = courseIDQuery.build();
+        if (hasName()) {
+            courseQuery = courseQuery.nameContains(nameField.getText());
+        }
+        Set<KnightEDU.Course> results = courseQuery.invoke();
+
+        DefaultListModel searchResultsListData = new DefaultListModel();
+        for (KnightEDU.Course i : results)
+        {
+            searchResultsListData.addElement(i);
+        }
+        courseList.setModel(searchResultsListData);
+    }
+
     private void prefixFieldFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_prefixFieldFocusLost
     {//GEN-HEADEREND:event_prefixFieldFocusLost
         queryCourseID();
@@ -723,30 +769,22 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
         queryCourseID();
     }//GEN-LAST:event_suffixFieldFocusLost
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        // Clear all information in the form.
-        prefixField.setText("");
-        numberField.setText("");
-        suffixField.setText("");
+    private void prefixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_prefixFieldActionPerformed
+    {//GEN-HEADEREND:event_prefixFieldActionPerformed
+        refreshForm();
+    }//GEN-LAST:event_prefixFieldActionPerformed
 
-        minCreditsField.setText("");
-        maxCreditsField.setText("");
+    private void numberFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_numberFieldActionPerformed
+    {//GEN-HEADEREND:event_numberFieldActionPerformed
+        refreshForm();
+    }//GEN-LAST:event_numberFieldActionPerformed
 
-        nameField.setText("");
-        descriptionArea.setText("");
-        prereqTextArea.setText("");
+    private void suffixFieldActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_suffixFieldActionPerformed
+    {//GEN-HEADEREND:event_suffixFieldActionPerformed
+        refreshForm();
+    }//GEN-LAST:event_suffixFieldActionPerformed
 
-        courseList = null;
 
-        fallOddBox.setSelected(false);
-        springOddBox.setSelected(false);
-        summerOddBox.setSelected(false);
-        fallEvenBox.setSelected(false);
-        springEvenBox.setSelected(false);
-        summerEvenBox.setSelected(false);
-        occasionalBox.setSelected(false);
-
-    }//GEN-LAST:event_clearButtonActionPerformed
 
     private void queryCourseID()
     {
@@ -870,7 +908,6 @@ public class CoursePlannerPanel extends javax.swing.JPanel {
     private javax.swing.JButton removeButton;
     private javax.swing.JButton resetPrereqsButton;
     private javax.swing.JButton saveButton;
-    private javax.swing.JButton searchButton;
     private javax.swing.JPanel semOfferedPan;
     private javax.swing.JPanel semOfferedSemPan;
     private javax.swing.JSeparator semOfferedSeparator;
